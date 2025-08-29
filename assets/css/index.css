@@ -1,0 +1,303 @@
+/* ========================================
+   RESET Y BASE
+======================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ✅ 1. AÑADE LAS VARIABLES NEON AQUÍ (línea recomendada: después del *{}) */
+:root {
+  --neon-color: #8a2be2; /* Color morado original */
+  --neon-glow: rgba(138, 43, 226, 0.3); /* ← Menos opaco (0.3 en lugar de 0.6) */
+  --neon-glow-strong: rgba(138, 43, 226, 0.5); /* ← Más tenue (0.5 en lugar de 0.8) */
+  --neon-shadow-soft: 
+    0 0 8px var(--neon-glow),
+    0 0 15px var(--neon-glow),
+    0 0 25px var(--neon-glow-strong);
+  --neon-shadow-strong: 
+    0 0 10px var(--neon-glow),
+    0 0 20px var(--neon-glow),
+    0 0 35px var(--neon-glow-strong);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #120429, #000000, #120429);
+  color: white;
+  line-height: 1.6;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 105, 180, 0.1), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ✅ 2. CLASE REUTILIZABLE NEON (añade esto antes de .navbar) */
+.neon-border {
+  border: var(--neon-border-width) solid var(--neon-color);
+  box-shadow: var(--neon-shadow-soft);
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background-clip: padding-box;
+}
+
+.neon-border:hover {
+  box-shadow: var(--neon-shadow-strong);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   NAVBAR
+======================================== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  /* ✅ ELIMINA ESTAS PROPIEDADES: ya las maneja .neon-border */
+  /* border: 1px solid #8a2be2; */
+  /* box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3); */
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  /* ✅ Asegúrate de que en el HTML tenga la clase: class="navbar neon-border" */
+}
+
+.brand {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+}
+
+.brand::before {
+  content: "🎧";
+  margin-right: 8px;
+  color: #ff69b4;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.menu a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.menu a:hover {
+  color: #f39dab;
+  text-shadow: 0 0 8px #ff69b4;
+}
+
+/* ========================================
+   HERO SECTION
+======================================== */
+.hero {
+  display: flex;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  /* ✅ ELIMINA ESTAS PROPIEDADES: ya las maneja .neon-border */
+  /* border: 1px solid #8a2be2; */
+  /* box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4); */
+  overflow: hidden;
+  margin-bottom: 30px;
+  position: relative;
+  height: 500px;
+  /* ✅ Asegúrate de que en el HTML tenga la clase: class="hero neon-border" */
+}
+
+.hero-content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #ff69b4;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+}
+
+.hero-content p {
+  color: #ccc;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Imagen de la chica */
+.hero-image-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  overflow: hidden;
+  height: 100%;
+}
+
+.hero-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  transform: translateY(0);
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+  .hero-image {
+    right: 10px;
+    max-width: 90%;
+  }
+}
+
+/* ========================================
+   BOTONES
+======================================== */
+.btn-shop {
+  background: linear-gradient(135deg, #ff69b4, #8a2be2);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-shop:hover {
+  background: linear-gradient(135deg, #e062b4, #7a26c2);
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+}
+
+/* ========================================
+   GALERÍA DE IMÁGENES - EFECTO NEÓN + MARCO NEGRO (SÓLO EN EL CONTENEDOR)
+======================================== */
+.gallery-slider {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #000;
+  padding: 25px;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  user-select: none;
+  /* ✅ ELIMINA ESTAS PROPIEDADES: ya las maneja .neon-border */
+  /* border-radius: 10px; */
+  /* border: 3px solid #8a2be2; */
+  /* box-shadow: ... */
+  /* ✅ Asegúrate de que en el HTML tenga la clase: class="gallery-slider neon-border" */
+}
+
+/* Ocultar scrollbar en WebKit (Chrome, Safari, Edge) */
+.gallery-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* ✅ ELIMINA ESTO: ya lo hace .neon-border:hover */
+/* .gallery-slider:hover { ... } */
+
+/* Contenido deslizable de la galería */
+.gallery-content {
+  display: flex;
+  gap: 8px;
+  height: 100%;
+  width: max-content;
+  transition: transform 0.1s ease;
+}
+
+/* Cada elemento de imagen (sin efectos individuales) */
+.gallery-item {
+  box-sizing: border-box;
+  width: 160px;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+/* Efecto al pasar el ratón sobre una imagen */
+.gallery-item:hover {
+  transform: scale(1.03);
+}
+
+/* Estilo de las imágenes */
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+  display: block;
+}
+
+/* Separador entre galerías (sin borde ni contenido visual) */
+.gallery-divider {
+  margin: 30px 0;
+  border: none;
+  height: 0;
+  padding: 0;
+}
+
+/* ========================================
+   ANIMACIONES
+======================================== */
+.fade-out {
+  opacity: 1;
+  transition: opacity 0.8s ease-out;
+}
+
+.fade-out.fade-out-active {
+  opacity: 0;
+}

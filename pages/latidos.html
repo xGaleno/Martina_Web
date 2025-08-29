@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz 8 meses, Martineishon</title>
+
+  <!-- Tipografía -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <!-- CSS unificado -->
+  <link rel="stylesheet" href="../assets/css/latidos.css" />
+</head>
+<body>
+
+  <!-- Música de fondo (opcional, si quieres) -->
+  <audio id="background-music" loop autoplay muted>
+    <source src="../assets/audio/Humbe.mp3" type="audio/mpeg">
+  </audio>
+
+  <main class="container">
+    
+    <!-- Navbar con efecto neon -->
+    <nav class="navbar neon-border">
+      <div class="brand">MARTINA</div>
+      <ul class="menu">
+        <li><a href="../index.html">INICIO</a></li>
+        <li><a href="../pages/historia.html">HISTORIA</a></li>
+      </ul>
+    </nav>
+
+<!-- Hero con corazón y título -->
+<section class="hero neon-border">
+  <canvas id="heart"></canvas>
+  <div class="title">
+    <!-- Espacio reservado para mantener la altura anterior del texto -->
+    <div class="placeholder-space"></div>
+  </div>
+</section>
+
+  </main>
+
+  <!-- Script del corazón -->
+  <script src="../assets/js/latidos.js"></script>
+  <script src="../assets/js/musica.js"></script> <!-- Opcional: para controlar música -->
+</body>
+</html>

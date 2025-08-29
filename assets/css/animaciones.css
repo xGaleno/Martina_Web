@@ -1,0 +1,64 @@
+/* ========================================
+   ANIMACIONES SUAVES - animaciones.css
+======================================== */
+
+/* Fade In al aparecer */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Aparecer con retraso progresivo (para galerías) */
+.fade-in:nth-child(1) { animation-delay: 0.1s; }
+.fade-in:nth-child(2) { animation-delay: 0.2s; }
+.fade-in:nth-child(3) { animation-delay: 0.3s; }
+.fade-in:nth-child(4) { animation-delay: 0.4s; }
+.fade-in:nth-child(5) { animation-delay: 0.5s; }
+.fade-in:nth-child(6) { animation-delay: 0.6s; }
+.fade-in:nth-child(7) { animation-delay: 0.7s; }
+.fade-in:nth-child(8) { animation-delay: 0.8s; }
+
+/* Brillo sutil en el botón */
+.btn-shop {
+  animation: pulse-glow 2s infinite alternate;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+  }
+  100% {
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.7);
+  }
+}
+
+/* Animación de entrada para el hero */
+.hero-content {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeIn 1.2s ease-out forwards;
+}
+
+.hero-image {
+  opacity: 0;
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+.story-content p, .story-content h1 {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: calc(0.1s * var(--i, 0));
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

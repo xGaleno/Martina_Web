@@ -1,0 +1,164 @@
+/* ========================================
+   RESET Y BASE - COPIADO DE INDEX.CSS
+======================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ✅ VARIABLES NEON - IGUAL QUE EN INDEX.CSS */
+:root {
+  --neon-color: #8a2be2; /* Color morado original */
+  --neon-glow: rgba(138, 43, 226, 0.3); /* ← Menos opaco (0.3 en lugar de 0.6) */
+  --neon-glow-strong: rgba(138, 43, 226, 0.5); /* ← Más tenue (0.5 en lugar de 0.8) */
+  --neon-shadow-soft: 
+    0 0 8px var(--neon-glow),
+    0 0 15px var(--neon-glow),
+    0 0 25px var(--neon-glow-strong);
+  --neon-shadow-strong: 
+    0 0 10px var(--neon-glow),
+    0 0 20px var(--neon-glow),
+    0 0 35px var(--neon-glow-strong);
+}
+
+/* ✅ FONDO IGUAL AL DE INDEX */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #120429, #000000, #120429);
+  color: white;
+  line-height: 1.6;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* ✅ EFECTO RADIAL DE INDEX (OPCIONAL PERO IGUAL) */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 105, 180, 0.1), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ✅ CONTENEDOR IGUAL */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ✅ CLASE NEON-BORDER IGUAL */
+.neon-border {
+  border: var(--neon-border-width) solid var(--neon-color);
+  box-shadow: var(--neon-shadow-soft);
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background-clip: padding-box;
+}
+
+.neon-border:hover {
+  box-shadow: var(--neon-shadow-strong);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   NAVBAR - IGUAL QUE INDEX
+======================================== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 15px 20px;
+  margin-bottom: 20px;
+}
+
+.brand {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+}
+
+.brand::before {
+  content: "💗";
+  margin-right: 8px;
+  color: #ff69b4;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.menu a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.menu a:hover {
+  color: #f39dab;
+  text-shadow: 0 0 8px #ff69b4;
+}
+
+/* ========================================
+   CONTENIDO DE LA HISTORIA - ESTILO IGUAL A HERO/GALLERY
+======================================== */
+.story-content {
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 10px;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  color: #ccc;
+}
+
+.story-content h1 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #ff69b4;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+}
+
+.story-content p {
+  margin-bottom: 18px;
+  text-align: justify;
+}
+
+.story-content .signature {
+  font-style: italic;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 30px;
+  color: #f39dab;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 768px) {
+  .story-content {
+    padding: 25px;
+    font-size: 1rem;
+  }
+
+  .story-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .story-content .signature {
+    font-size: 1.1rem;
+  }
+}
