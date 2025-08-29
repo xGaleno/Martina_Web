@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JUEGO - Martina</title>
+
+  <!-- Tus estilos principales (neón, fondo, etc.) -->
+  <link rel="stylesheet" href="../assets/css/historia.css" />
+  <link rel="stylesheet" href="../assets/css/animaciones.css" />
+
+  <!-- Estilos específicos del juego -->
+  <link rel="stylesheet" href="../assets/css/juego.css" />
+</head>
+
+<body>
+  <!-- Música de fondo -->
+  <audio id="background-music" loop autoplay muted>
+    <source src="../assets/audio/Humbe.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <!-- Contenido principal -->
+  <main class="container">
+    
+    <!-- Barra de navegación con efecto neon -->
+    <nav class="navbar neon-border">
+      <div class="brand">MARTINA</div>
+      <ul class="menu">
+        <li><a href="../index.html">INICIO</a></li>
+        <li><a href="historia.html">HISTORIA</a></li>
+        <li><a href="#" class="active">JUEGO</a></li>
+      </ul>
+    </nav>
+
+    <!-- Juego del dinosaurio -->
+    <section class="story-content neon-border">
+      <h1>JUEGO DEL NINASAURIO</h1>
+      <p>Presiona <strong>ESPACIO</strong> para saltar y esquivar los cactus. ¡Demuestra cuánto puedes aguantar!</p>
+      
+      <div class="game-wrapper">
+        <div class="contenedor-juego">
+          <div class="suelo"></div>
+          <div class="dino dino-corriendo"></div>
+          <div class="score">0</div>
+        </div>
+        <div class="game-over">GAME OVER</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Script de música -->
+  <script src="../assets/js/musica.js"></script>
+
+  <!-- Lógica del juego (ahora en archivo externo) -->
+  <script src="../assets/js/juego.js"></script>
+</body>
+</html>

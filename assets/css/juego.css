@@ -1,0 +1,135 @@
+/* === ESTILOS DEL JUEGO === */
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 18vh;
+  padding: 40px 20px;
+}
+
+.contenedor-juego {
+  width: 920px;
+  height: 280px;
+  position: relative;
+  background: linear-gradient(#b7d6c7, transparent) #ffe2d1;
+  transition: background-color 1s linear;
+  overflow: hidden;
+  border: 2px solid var(--neon-color);
+  box-shadow: var(--neon-shadow-soft);
+  border-radius: 8px;
+}
+
+/* Cambios de ambiente */
+.mediodia { background-color: #ffdcf3; }
+.tarde   { background-color: #ffadad; }
+.noche   { background-color: #aca8c7; }
+
+/* DINO - Estado normal y al morir */
+.dino {
+    width: 80px;          /* Aumentado de 84px */
+    height: 80px;         /* Aumentado de 84px */
+    
+    position: absolute;
+    bottom: 22px;
+    left: 42px;
+    z-index: 2;
+
+    background: url('../img/dino.png') no-repeat;
+    background-size: contain;
+    transition: none;
+}
+
+/* Suelo */
+.suelo {
+  width: 200%;
+  height: 42px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: url(../img/suelo.png) repeat-x 0px 0px;
+  background-size: 50% 42px;
+}
+
+/* Cactus */
+.cactus {
+  width: 46px;
+  height: 96px;
+  position: absolute;
+  bottom: 16px;
+  z-index: 1;
+  background: url(../img/cactus1.png) no-repeat;
+}
+
+.cactus2 {
+  width: 98px;
+  height: 66px;
+  background: url(../img/cactus2.png) no-repeat;
+}
+
+/* Nube */
+.nube {
+  width: 92px;
+  height: 26px;
+  position: absolute;
+  z-index: 0;
+  background: url(../img/nube.png) no-repeat;
+  background-size: 92px 26px;
+}
+
+/* Puntuación */
+.score {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-family: 'Segoe UI', Verdana, sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #5a0135;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  z-index: 10;
+}
+
+/* Game Over */
+.game-over {
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  text-align: center;
+  color: #000000;
+  font-size: 36px;
+  font-weight: bold;
+  text-shadow: 0 0 3px #ff69e6, 0 0 3px #e476ee;
+  z-index: 20;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .contenedor-juego {
+    width: 100%;
+    height: 220px;
+  }
+  .score {
+    font-size: 24px;
+    right: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .contenedor-juego {
+    height: 180px;
+  }
+  .dino, .cactus, .nube {
+    transform: scale(0.8);
+    transform-origin: bottom left;
+  }
+}
