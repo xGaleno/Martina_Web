@@ -22,7 +22,7 @@ python -m http.server 8080
 ```
 
 > Entrada principal: `index.html`  
-> Páginas: `pages/historia.html`, `pages/imagenes.html`, `pages/juego.html`, `pages/latidos.html`  
+> Páginas: `pages/historia.html`, `pages/juego.html`, `pages/latidos.html`  
 > Estilos: `assets/css/…` | JS: `assets/js/…` | Imágenes/Video/Audio: `assets/img`, `assets/video`, `assets/audio`
 
 ---
@@ -60,7 +60,6 @@ python -m http.server 8080
 ├── ninadash.html
 ├── pages/
 │   ├── historia.html
-│   ├── imagenes.html
 │   ├── juego.html
 │   └── latidos.html
 ├── assets/
