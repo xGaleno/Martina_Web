@@ -1,21 +1,13 @@
-/* FAST Heart Particles — Optimized for mobile/GPUs
-   - Pre-rendered sprites (sharp + glow)
-   - Capped DPR
-   - Fewer particles by default
-   - Added strong, automatic heartbeat pulse
-*/
-(() => {
-    // === Variables globales y referencias ===
+// === Módulo: Corazón animado ===
+window.HeartAnimation = (() => {
+    // === Referencias ===
     const cnv = document.getElementById('heart');
+    if (!cnv) return null; // Salir si no hay canvas
+
     const ctx = cnv.getContext('2d', { alpha: false });
     const heroSection = document.querySelector('.hero');
-    const leftArrow = document.querySelector('.nav-arrow.left');
-    const rightArrow = document.querySelector('.nav-arrow.right');
-    
-    // Estado de la página: 'heart' o 'gift'
-    let currentView = 'heart';
 
-    // === Rendimiento y Constantes ===
+    // === Constantes ===
     const DPR_CAP = 1.25;
     const COUNT = 850;
     const REPULSE_RADIUS = 120;
@@ -30,27 +22,22 @@
     const COLOR_SOFT = '#9326f8ff';
     const BG = '#000';
 
+    // === Estado ===
     let DPR = Math.min(DPR_CAP, window.devicePixelRatio || 1);
     let dotSprite, glowSprite;
     let bgFill = null;
-
     let particles = [];
     let pointer = { x: 0, y: 0, down: false, inside: false };
     let pulse = 0, revealT = 0;
     let lastPulseTime = 0;
-
     let animationId = null;
-    let isRunning = false;
 
     // === Funciones auxiliares ===
-
-    // Crear sprite de partícula (con o sin glow)
     function makeDot(radius = 2, glow = false) {
         const s = Math.ceil((radius + (glow ? 16 : 0)) * 2);
         const off = document.createElement('canvas');
         off.width = off.height = s;
         const c = off.getContext('2d');
-
         c.translate(s / 2, s / 2);
         if (glow) {
             c.shadowColor = COLOR_SOFT;
@@ -60,18 +47,15 @@
         c.beginPath();
         c.arc(0, 0, radius, 0, Math.PI * 2);
         c.fill();
-
         return off;
     }
 
-    // Puntos del corazón (ecuación paramétrica)
     function heartPoint(t, scale, cx, cy) {
         const x = 16 * Math.pow(Math.sin(t), 3);
         const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
         return { x: cx + (x * scale), y: cy - (y * scale) };
     }
 
-    // Re-construir canvas y partículas
     function rebuildHeart() {
         const w = cnv.width / DPR;
         const h = cnv.height / DPR;
@@ -109,7 +93,6 @@
         revealT = 0;
     }
 
-    // Resize responsive
     function resize() {
         DPR = Math.min(DPR_CAP, window.devicePixelRatio || 1);
         const rect = cnv.parentElement.getBoundingClientRect();
@@ -122,12 +105,9 @@
         cnv.style.height = `${h}px`;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
-        if (currentView === 'heart') {
-            rebuildHeart();
-        }
+        rebuildHeart();
     }
 
-    // Manejo del puntero
     function onPointer(e) {
         pointer.down = e.type === 'pointerdown' ? true :
             e.type === 'pointerup' ? false : pointer.down;
@@ -146,7 +126,6 @@
         }
     }
 
-    // Bucle principal de animación
     function step() {
         const now = performance.now();
         const w = cnv.width / DPR;
@@ -175,7 +154,6 @@
             revealT = Math.min(1, revealT + REVEAL_SPEED);
         }
 
-        const pulseFactor = 1 + pulse * 1.2;
         const spring = RETURN_SPRING * (1 + pulse * 0.6);
         const repulseBoost = pulse * 0.8;
 
@@ -237,108 +215,38 @@
 
         animationId = requestAnimationFrame(step);
     }
-    
-    // --- NUEVAS FUNCIONES PARA LOS VIDEOS ---
-    
-    function stopHeartAnimation() {
-        if (animationId) {
-            cancelAnimationFrame(animationId);
-            animationId = null;
-            isRunning = false;
+
+    // === API pública ===
+    return {
+        init() {
+            resize();
+            step();
+            window.addEventListener('resize', resize);
+            cnv.addEventListener('pointerenter', onPointer);
+            cnv.addEventListener('pointerleave', onPointer);
+            cnv.addEventListener('pointermove', onPointer);
+            cnv.addEventListener('pointerdown', onPointer);
+            cnv.addEventListener('pointerup', onPointer);
+            cnv.addEventListener('click', onPointer);
+            cnv.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+        },
+
+        stop() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            cnv.style.display = 'none';
+        },
+
+        restart() {
+            cnv.style.display = 'block';
+            rebuildHeart();
+            step();
+        },
+
+        getElements() {
+            return { cnv, heroSection };
         }
-    }
-
-    function showGift() {
-        stopHeartAnimation();
-        cnv.style.display = 'none';
-
-        const oldGift = document.getElementById('gift-video-container');
-        if (oldGift) oldGift.remove();
-
-        const videoContainer = document.createElement('div');
-        videoContainer.id = 'gift-video-container';
-        videoContainer.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 5;
-            pointer-events: none;
-        `;
-        
-        const floresVideo = document.createElement('video');
-        floresVideo.autoplay = true;
-        floresVideo.loop = true;
-        floresVideo.muted = true;
-        floresVideo.playsInline = true;
-        floresVideo.style.cssText = `
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        `;
-        floresVideo.innerHTML = `<source src="../assets/video/flores.mp4" type="video/mp4">`;
-        videoContainer.appendChild(floresVideo);
-
-        const ninaVideo = document.createElement('video');
-        ninaVideo.autoplay = true;
-        ninaVideo.loop = true;
-        ninaVideo.muted = true;
-        ninaVideo.playsInline = true;
-        ninaVideo.style.cssText = `
-            width: 50%;
-            height: auto;
-            border-radius: 50%;
-            border: 2px solid #8a2be2;
-            box-shadow: 
-                0 0 8px rgba(138, 43, 226, 0.6),
-                0 0 15px rgba(138, 43, 226, 0.4);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-        `;
-        ninaVideo.innerHTML = `<source src="../assets/video/nina.mp4" type="video/mp4">`;
-        videoContainer.appendChild(ninaVideo);
-
-        heroSection.appendChild(videoContainer);
-        currentView = 'gift';
-    }
-
-    // --- Control de navegación ---
-    rightArrow.addEventListener('click', showGift);
-
-    leftArrow.addEventListener('click', () => {
-        currentView = 'heart';
-        const giftVideoContainer = document.getElementById('gift-video-container');
-        if (giftVideoContainer) {
-            giftVideoContainer.remove();
-        }
-        cnv.style.display = 'block';
-        rebuildHeart();
-        step();
-    });
-
-    // --- Inicialización y Eventos ---
-    resize();
-    step();
-
-    window.addEventListener('resize', resize);
-    cnv.addEventListener('pointerenter', onPointer);
-    cnv.addEventListener('pointerleave', onPointer);
-    cnv.addEventListener('pointermove', onPointer);
-    cnv.addEventListener('pointerdown', onPointer);
-    cnv.addEventListener('pointerup', onPointer);
-    cnv.addEventListener('click', onPointer);
-    cnv.addEventListener('touchstart', e => { e.preventDefault(); }, { passive: false });
+    };
 })();
