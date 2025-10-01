@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Purple Pulse Dash</title>
+<style>
+  :root{
+    --bg:#070012;--bg2:#18002a;--ground:#23003f;
+    --player:#e0aaff;--spike:#b26bff;--part:#ff79c6;
+    --hud:#e0aaff;--hudGlow:#c77dff;--flip:#a56dff;--pad:#ffd166;
+  }
+  html,body{margin:0;height:100%;background:radial-gradient(1200px 700px at 50% 20%,#220044 0%,#0c0018 55%,#070012 100%);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  canvas{display:block;margin:auto;box-shadow:0 0 30px #9d4edd, inset 0 0 40px #220044;touch-action:none;border-radius:12px}
+  #hud{position:absolute;top:12px;left:50%;transform:translateX(-50%);color:var(--hud);font-weight:800;font-size:20px;text-shadow:0 0 10px var(--hudGlow)}
+  #deadMsg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#ff79c6;font-size:30px;text-align:center;pointer-events:none;opacity:0;transition:opacity .2s}
+  #deadMsg small{display:block;opacity:.85;font-size:14px;margin-top:6px}
+  #pause{position:absolute;top:10px;right:14px;color:#b589ff;font-weight:800;cursor:pointer;user-select:none}
+</style>
+</head>
+<body>
+  <!-- ===== HUD & Controls ===== -->
+  <div id="hud">Score <span id="s">0</span> · Best <span id="b">0</span> · Attempts <span id="a">1</span></div>
+  <div id="pause">⏸️</div>
+  <div id="deadMsg">💀 Press SPACE / Tap to respawn<small>Hold to auto-jump · P pause · G flip (debug)</small></div>
+
+  <!-- ===== Canvas ===== -->
+  <canvas id="c"></canvas>
+
+<script>
+(() => {
+/* =========================================================
+   1) CANVAS & DPI
+========================================================= */
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+let DPR = Math.max(1, Math.min(2, devicePixelRatio || 1));
+function GROUND_Y(){ return c.height / DPR - 90; }
+
+function resize(){
+  const w = Math.min(innerWidth, 1280);
+  const h = Math.floor(innerHeight * 0.75);
+  DPR = Math.max(1, Math.min(2, devicePixelRatio || 1));
+  c.width  = Math.floor(w * DPR);
+  c.height = Math.floor(h * DPR);
+  c.style.width  = w + 'px';
+  c.style.height = h + 'px';
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+addEventListener('resize', resize);
+resize();
+
+/* =========================================================
+   2) CONSTANTS & GLOBAL STATE
+========================================================= */
+const PAL = { bg:'#070012', bg2:'#18002a', ground:'#23003f', player:'#e0aaff', spike:'#b26bff', part:'#ff79c6', flip:'#a56dff' };
+
+let GRAV = 2400;
+let JUMP_V = -900;
+let SPEED = 470;          // base speed
+let targetSpeed = SPEED;  // eased toward section speed
+
+const CUBE = { x:130, y:0, w:38, h:38, vy:0, rot:0, grounded:false };
+CUBE.y = GROUND_Y() - CUBE.h;
+
+let score = 0;
+let best  = Number(localStorage.getItem('ppd_best') || 0);
+let attempts = 1;
+
+let dead=false, paused=false, globalTime=0, shake=0;
+
+/* QoL jumping */
+let wantJump=false, jumpBufferT=0, coyoteT=0;
+const JUMP_BUFFER_MAX=0.12, COYOTE_MAX=0.08;
+
+/* HUD refs */
+const sEl=document.getElementById('s');
+const bEl=document.getElementById('b');
+const aEl=document.getElementById('a');
+
+/* =========================================================
+   3) ENTITIES (Particles, Obstacles, Pads, Portals, Flips) -
+========================================================= */
+const parts=[];
+class Part{
+  constructor(x,y){
+    this.x=x; this.y=y;
+    this.vx=(Math.random()-0.5)*260;
+    this.vy=-Math.random()*480-180;
+    this.life=0.5;
+  }
+  update(dt){ this.x+=this.vx*dt; this.y+=this.vy*dt; this.vy+=1200*dt; this.life-=dt; }
+  draw(){ ctx.globalAlpha=Math.max(0,this.life)/0.5; ctx.fillStyle=PAL.part; ctx.fillRect(this.x,this.y,4,4); ctx.globalAlpha=1; }
+}
+const trail=[]; // recent cube positions
+
+function pushTrail(){
+  trail.push({x:CUBE.x,y:CUBE.y,w:CUBE.w,h:CUBE.h,a:0.55});
+  if(trail.length>10) trail.shift();
+}
+
+/* World objects */
+const spikes=[];   // {x,y,w,h,dir:1|-1}
+const pads=[];     // {x,y,w,h}
+const portals=[];  // {x,y,w,h}
+const flips=[];    // {x,y,w,h}
+
+function addSpikeFloor(x, w=42, h=42){ spikes.push({x, y:GROUND_Y(), w, h, dir:1}); }
+function addSpikeCeil(x,  w=42, h=42){ const top=40; spikes.push({x, y:top,      w, h, dir:-1}); }
+function addPad(x){      pads.push({x, y:GROUND_Y()-8, w:28, h:8}); }
+function addPortal(x){   portals.push({x, y:GROUND_Y()-40, w:18, h:40}); }
+function addFlipFloor(x){flips.push({x, y:GROUND_Y()-10, w:22, h:10}); }
+function addFlipCeil(x){ const top=40; flips.push({x, y:top,          w:22, h:10}); }
+
+/* =========================================================
+   4) COLLISION & GEOMETRY
+========================================================= */
+function triangleContainsPoint(ax,ay,bx,by,cx,cy,px,py){
+  const v0x=cx-ax, v0y=cy-ay;
+  const v1x=bx-ax, v1y=by-ay;
+  const v2x=px-ax, v2y=py-ay;
+  const dot00=v0x*v0x+v0y*v0y;
+  const dot01=v0x*v1x+v0y*v1y;
+  const dot02=v0x*v2x+v0y*v2y;
+  const dot11=v1x*v1x+v1y*v1y;
+  const dot12=v1x*v2x+v1y*v2y;
+  const invDen=1/((dot00*dot11)-(dot01*dot01));
+  const u=(dot11*dot02 - dot01*dot12)*invDen;
+  const v=(dot00*dot12 - dot01*dot02)*invDen;
+  return u>=0 && v>=0 && (u+v)<=1;
+}
+function collideSpike(c,s){
+  if(s.dir===1){ // floor
+    const ax=s.x, ay=s.y, bx=s.x+s.w, by=s.y, cx=s.x+s.w/2, cy=s.y-s.h;
+    const pts=[[c.x,c.y],[c.x+c.w,c.y],[c.x,c.y+c.h],[c.x+c.w,c.y+c.h]];
+    for(const [px,py] of pts){ if(triangleContainsPoint(ax,ay,bx,by,cx,cy,px,py)) return true; }
+  } else {       // ceiling
+    const ax=s.x, ay=s.y, bx=s.x+s.w, by=s.y, cx=s.x+s.w/2, cy=s.y+s.h;
+    const pts=[[c.x,c.y],[c.x+c.w,c.y],[c.x,c.y+c.h],[c.x+c.w,c.y+c.h]];
+    for(const [px,py] of pts){ if(triangleContainsPoint(ax,ay,bx,by,cx,cy,px,py)) return true; }
+  }
+  return false;
+}
+function addBurst(x,y,n=20){ for(let i=0;i<n;i++) parts.push(new Part(x,y)); }
+
+/* =========================================================
+   5) STATE MANAGEMENT (Jumping, Death, Reset, HUD)
+========================================================= */
+function requestJump(){ wantJump=true; jumpBufferT=JUMP_BUFFER_MAX; }
+function applyJump(){
+  if(dead||paused) return;
+  const can = (CUBE.grounded || coyoteT>0);
+  if(can){
+    CUBE.vy = (gravityDown?JUMP_V:-JUMP_V*0.9);
+    CUBE.grounded=false; coyoteT=0; jumpBufferT=0;
+    addBurst(CUBE.x+CUBE.w/2, CUBE.y+(gravityDown?CUBE.h:0), 12);
+  }
+}
+function die(){
+  if(dead) return;
+  dead=true; shake=24; addBurst(CUBE.x+CUBE.w/2, CUBE.y+CUBE.h/2, 80);
+  document.getElementById('deadMsg').style.opacity=1;
+  best=Math.max(best,score); localStorage.setItem('ppd_best',best);
+  updateHUD();
+}
+function reset(){
+  dead=false; paused=false; score=0;
+  spikes.length=0; pads.length=0; portals.length=0; flips.length=0; parts.length=0; trail.length=0;
+  beatTimer=0; beatIndex=0; globalTime=0; shake=0; attempts++;
+  gravityDown=true;
+  CUBE.y = GROUND_Y()-CUBE.h; CUBE.vy=0; CUBE.rot=0; CUBE.grounded=false;
+  SPEED=470; targetSpeed=SPEED; setSection(0);
+  document.getElementById('deadMsg').style.opacity=0;
+  updateHUD();
+}
+function updateHUD(){ sEl.textContent=score; bEl.textContent=best; aEl.textContent=attempts; }
+
+/* =========================================================
+   6) GRAVITY
+========================================================= */
+let gravityDown=true;
+function flipGravity(emph=true){
+  gravityDown=!gravityDown;
+  if(emph){ shake=16; addBurst(CUBE.x+CUBE.w/2, CUBE.y+CUBE.h/2, 36); }
+}
+
+/* =========================================================
+   7) RHYTHM / LEVEL SCRIPTS -
+========================================================= */
+let BPM=132;
+let beatTimer=0; function beatInterval(){return 60/BPM;}
+let beatIndex=0;
+
+const startX = () => c.width/DPR + 30;
+
+/* Patterns */
+function PF_single(dx=0){ addSpikeFloor(startX()+dx); }
+function PF_double(gap=60){ addSpikeFloor(startX()); addSpikeFloor(startX()+gap); }
+function PF_triple(gap=56){ addSpikeFloor(startX()); addSpikeFloor(startX()+gap); addSpikeFloor(startX()+gap*2); }
+function PF_stairs(){ addSpikeFloor(startX(),42,44); addSpikeFloor(startX()+55,42,56); addSpikeFloor(startX()+115,42,68); }
+function PF_choke(){ addSpikeFloor(startX(),44,70); addPad(startX()+24); addSpikeFloor(startX()+92,44,70); }
+function PF_flip(){ addFlipFloor(startX()); }
+
+function PC_single(dx=0){ addSpikeCeil(startX()+dx); }
+function PC_double(gap=60){ addSpikeCeil(startX()); addSpikeCeil(startX()+gap); }
+function PC_wave(){ addSpikeCeil(startX()); addSpikeCeil(startX()+48); addSpikeCeil(startX()+158); }
+function PC_flip(){ addFlipCeil(startX()); }
+
+function P_portal(){ addPortal(startX()-10); }
+
+/* Sections */
+const SECTIONS = [
+  { name:'intro',  bpm:128, speed:470, lenBeats:12, script:[
+      [2, ()=>PF_single()], [4, ()=>PF_double(62)], [6, ()=>PF_stairs()], [8, ()=>PF_flip()], [10,()=>PF_single(24)]
+  ]},
+  { name:'build',  bpm:140, speed:520, lenBeats:16, script:[
+      [0, ()=>PF_triple(54)], [2, ()=>PF_choke()], [4, ()=>P_portal()], [6, ()=>PC_double(60)], [8, ()=>PC_wave()],
+      [12,()=>PF_flip()], [14,()=>PC_flip()]
+  ]},
+  { name:'drop',   bpm:148, speed:570, lenBeats:18, script:[
+      [0, ()=>PF_triple(52)], [2, ()=>PC_double(58)], [4, ()=>PF_choke()], [6, ()=>PF_triple(52)], [8, ()=>PC_wave()],
+      [10,()=>PF_flip()], [12,()=>PC_flip()], [14,()=>PF_double(58)], [16,()=>PC_double(58)]
+  ]},
+  { name:'finale', bpm:152, speed:600, lenBeats:20, script:[
+      [0, ()=>PF_stairs()], [2, ()=>PF_triple(50)], [4, ()=>PC_double(56)], [6, ()=>PF_choke()], [8, ()=>P_portal()],
+      [10,()=>PF_flip()], [12,()=>PC_flip()], [14,()=>PF_triple(50)], [16,()=>PC_wave()], [18,()=>PF_double(56)]
+  ]},
+];
+
+let currentSectionIndex = 0, sectionBeatOffset = 0;
+function setSection(i){
+  currentSectionIndex = Math.max(0, Math.min(SECTIONS.length-1, i));
+  const sec = SECTIONS[currentSectionIndex];
+  BPM = sec.bpm;
+  targetSpeed = sec.speed;
+  sectionBeatOffset = beatIndex;
+  addBurst(CUBE.x+CUBE.w/2, CUBE.y+CUBE.h/2, 16);
+}
+function advanceSectionIfNeeded(){
+  const sec = SECTIONS[currentSectionIndex];
+  if(beatIndex - sectionBeatOffset >= sec.lenBeats){
+    setSection( (currentSectionIndex+1) % SECTIONS.length );
+  }
+}
+function runSectionScriptForBeat(){
+  const sec = SECTIONS[currentSectionIndex];
+  const localBeat = beatIndex - sectionBeatOffset;
+  for(const [at,fn] of sec.script){ if(at===localBeat){ fn(); } }
+}
+
+/* =========================================================
+   8) GAME LOOP (fixed timestep) -
+========================================================= */
+let lastTS=performance.now(), acc=0; const DT=1/60;
+
+function step(dt){
+  if(paused) return;
+
+  if(!dead){
+    // timers
+    globalTime+=dt;
+    if(jumpBufferT>0) jumpBufferT-=dt;
+    if(!CUBE.grounded && coyoteT>0) coyoteT-=dt;
+
+    // ease speed to section target
+    SPEED += (targetSpeed - SPEED) * Math.min(1, 4*dt);
+
+    // gravity / vertical motion
+    CUBE.vy += (gravityDown?GRAV:-GRAV) * dt;
+    CUBE.y  += CUBE.vy*dt;
+
+    // floor/ceiling clamp
+    const gy = GROUND_Y(), top=40;
+    if(gravityDown){
+      if(CUBE.y + CUBE.h >= gy){
+        CUBE.y = gy - CUBE.h; CUBE.vy=0;
+        if(!CUBE.grounded){ CUBE.grounded=true; coyoteT=COYOTE_MAX; if(jumpBufferT>0){applyJump();} }
+      } else if(CUBE.grounded){ CUBE.grounded=false; coyoteT=COYOTE_MAX; }
+    } else {
+      if(CUBE.y <= top){
+        CUBE.y = top; CUBE.vy=0;
+        if(!CUBE.grounded){ CUBE.grounded=true; coyoteT=COYOTE_MAX; if(jumpBufferT>0){applyJump();} }
+      } else if(CUBE.grounded){ CUBE.grounded=false; coyoteT=COYOTE_MAX; }
+    }
+
+    // rotation flair
+    const rotSpeed = (Math.sign(SPEED) * (gravityDown?1:-1)) * 9.5;
+    if(!CUBE.grounded) CUBE.rot += rotSpeed*dt; else CUBE.rot = 0;
+
+    // beat clock
+    beatTimer += dt;
+    while(beatTimer >= beatInterval()){
+      beatTimer -= beatInterval();
+      beatIndex++; runSectionScriptForBeat(); advanceSectionIfNeeded();
+    }
+
+    // move world
+    for(const s of spikes)  s.x -= SPEED*dt;
+    for(const p of pads)    p.x -= SPEED*dt;
+    for(const o of portals) o.x -= SPEED*dt;
+    for(const f of flips)   f.x -= SPEED*dt;
+
+    // cleanup + scoring
+    while(spikes.length && spikes[0].x < -80){spikes.shift(); score++; updateHUD();}
+    while(pads.length   && pads[0].x   < -80) pads.shift();
+    while(portals.length&& portals[0].x< -80) portals.shift();
+    while(flips.length  && flips[0].x  < -80) flips.shift();
+
+    // collisions
+    for(const s of spikes){ if(collideSpike(CUBE,s)){ die(); break; } }
+
+    for(const pad of pads){
+      const hit = (CUBE.x < pad.x+pad.w && CUBE.x+CUBE.w > pad.x && CUBE.y < pad.y+pad.h && CUBE.y+CUBE.h > pad.y);
+      if(hit){
+        CUBE.vy = (gravityDown?JUMP_V*1.25:-JUMP_V*1.15);
+        CUBE.grounded=false; addBurst(pad.x+pad.w/2,pad.y,12);
+      }
+    }
+    for(const portal of portals){
+      const hit = (CUBE.x < portal.x+portal.w && CUBE.x+CUBE.w > portal.x && CUBE.y < portal.y+portal.h && CUBE.y+CUBE.h > portal.y);
+      if(hit){ flipGravity(); portal.x=-9999; }
+    }
+    for(const f of flips){
+      const hit = (CUBE.x < f.x+f.w && CUBE.x+CUBE.w > f.x && CUBE.y < f.y+f.h && CUBE.y+CUBE.h > f.y);
+      if(hit){ flipGravity(); f.x=-9999; }
+    }
+  }
+
+  // fx / housekeeping
+  for(let i=parts.length-1;i>=0;i--){ parts[i].update(dt); if(parts[i].life<=0) parts.splice(i,1); }
+  if(shake>0) shake -= 60*dt;
+  pushTrail();
+}
+
+function loop(ts){
+  const delta = Math.min(0.05, (ts-lastTS)/1000);
+  lastTS=ts; acc += delta;
+  while(acc >= DT){ step(DT); acc -= DT; }
+  draw(); requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* =========================================================
+   9) RENDERING
+========================================================= */
+let parX=0;
+function draw(){
+  const w=c.width/DPR, h=c.height/DPR; parX -= (SPEED*0.3)*(1/60);
+
+  // subtle camera shake
+  const sx = shake? (Math.random()-0.5)*shake*0.8 : 0;
+  const sy = shake? (Math.random()-0.5)*shake*0.8 : 0;
+  ctx.save(); ctx.translate(sx,sy);
+
+  // background gradient
+  const pulse = Math.sin(globalTime*4.8)*0.08+0.18;
+  const grd=ctx.createLinearGradient(0,0,0,h);
+  grd.addColorStop(0,'#0d0020'); grd.addColorStop(1,'#1a0033');
+  ctx.fillStyle=grd; ctx.fillRect(0,0,w,h);
+
+  // parallax neon dust
+  ctx.fillStyle='rgba(178,107,255,'+pulse+')';
+  for(let i=0;i<10;i++){ let x=(parX+i*160)%w; if(x<0)x+=w; ctx.fillRect(x,40+i*55,2,2); }
+
+  // ground & ceiling
+  ctx.shadowBlur=22; ctx.shadowColor='#3b0a6e'; ctx.fillStyle=PAL.ground;
+  ctx.fillRect(0,GROUND_Y(),w,h-GROUND_Y());
+  ctx.fillRect(0,0,w,40);
+  ctx.shadowBlur=0;
+
+  // rhythm telegraphs
+  ctx.globalAlpha=0.25; ctx.fillStyle='#d7b3ff';
+  for(let i=0;i<12;i++){ const lx=(parX*0.7 + i*140)%w; ctx.fillRect((lx<0?lx+w:lx), GROUND_Y()-6, 26, 2); }
+  ctx.globalAlpha=1;
+
+  // portals
+  for(const o of portals){ ctx.fillStyle='#6cf2ff'; ctx.fillRect(o.x,o.y,o.w,o.h); }
+
+  // flips
+  for(const f of flips){
+    ctx.fillStyle=PAL.flip; ctx.shadowBlur=12; ctx.shadowColor=PAL.flip;
+    ctx.fillRect(f.x,f.y,f.w,f.h); ctx.shadowBlur=0;
+  }
+
+  // pads
+  for(const p of pads){ ctx.fillStyle='#ffd166'; ctx.fillRect(p.x,p.y,p.w,p.h); }
+
+  // spikes
+  ctx.fillStyle=PAL.spike; ctx.shadowBlur=14; ctx.shadowColor=PAL.spike;
+  for(const s of spikes){
+    ctx.beginPath();
+    if(s.dir===1){ ctx.moveTo(s.x,s.y); ctx.lineTo(s.x+s.w/2, s.y-s.h); ctx.lineTo(s.x+s.w, s.y); }
+    else {         ctx.moveTo(s.x,s.y); ctx.lineTo(s.x+s.w/2, s.y+s.h); ctx.lineTo(s.x+s.w, s.y); }
+    ctx.closePath(); ctx.fill();
+  }
+  ctx.shadowBlur=0;
+
+  // cube trail
+  for(let i=0;i<trail.length;i++){
+    const t=trail[i]; const a=t.a * (i+1)/trail.length * 0.6;
+    ctx.globalAlpha=a; ctx.fillStyle=PAL.player; ctx.fillRect(t.x,t.y,t.w,t.h);
+  }
+  ctx.globalAlpha=1;
+
+  // player
+  ctx.save();
+  const cx = CUBE.x + CUBE.w/2, cy = CUBE.y + CUBE.h/2;
+  ctx.translate(cx,cy); ctx.rotate(CUBE.rot); ctx.translate(-cx,-cy);
+  ctx.shadowBlur=18; ctx.shadowColor=PAL.player; ctx.fillStyle=PAL.player;
+  ctx.fillRect(CUBE.x, CUBE.y, CUBE.w, CUBE.h); ctx.shadowBlur=0;
+  ctx.restore();
+
+  // particles
+  parts.forEach(p=>p.draw());
+  ctx.restore();
+}
+
+/* =========================================================
+   10) INPUT
+========================================================= */
+function onPress(e){ e&&e.preventDefault(); if(dead){ reset(); return; } if(paused){ togglePause(false); return; } requestJump(); }
+function onRelease(){ wantJump=false; }
+function togglePause(force){ paused = (typeof force==='boolean')? !force : !paused; document.getElementById('pause').textContent = paused? '▶️' : '⏸️'; }
+
+addEventListener('keydown',e=>{
+  if(e.code==='Space' || e.code==='ArrowUp' || e.code==='KeyW'){ e.preventDefault(); onPress(); }
+  if(e.code==='KeyP'){ togglePause(); }
+  if(e.code==='KeyG'){ flipGravity(); }
+});
+addEventListener('keyup',e=>{ if(e.code==='Space' || e.code==='ArrowUp' || e.code==='KeyW'){ onRelease(); } });
+
+c.addEventListener('mousedown', onPress);
+addEventListener('mouseup', onRelease);
+c.addEventListener('touchstart', onPress, {passive:false});
+c.addEventListener('touchend', onRelease,   {passive:false});
+
+/* Buffered jump hook */
+(function installBufferedJump(){
+  const origStep = step;
+  step = function(dt){ origStep(dt); if(!dead && !paused && wantJump){ applyJump(); } };
+})();
+
+/* =========================================================
+   11) INIT
+========================================================= */
+updateHUD();
+document.getElementById('pause').onclick = ()=>togglePause();
+setSection(0);
+
+})(); // end IIFE
+</script>
+</body>
+</html>
