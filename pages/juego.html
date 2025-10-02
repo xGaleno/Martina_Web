@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,55 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JUEGO - Martina</title>
 
-  <!-- Tus estilos principales (neón, fondo, etc.) -->
-  <link rel="stylesheet" href="../assets/css/historia.css" />
-  <link rel="stylesheet" href="../assets/css/animaciones.css" />
-
-  <!-- Estilos específicos del juego -->
-  <link rel="stylesheet" href="../assets/css/juego.css" />
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ESTILOS: Capas de diseño (base → transiciones → lógica de juego) -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="../assets/css/historia.css" />      <!-- Estilos base compartidos (neón, fondo, tipografía) -->
+  <link rel="stylesheet" href="../assets/css/animaciones.css" />   <!-- Transiciones y efectos suaves -->
+  <link rel="stylesheet" href="../assets/css/juego.css" />         <!-- Estilos específicos del juego Dino -->
 </head>
 
 <body>
-  <!-- Música de fondo -->
-  <audio id="background-music" loop autoplay muted>
-    <source src="../assets/audio/Humbe.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio.
+
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- AUDIO: Música de fondo (controlada por interacción del usuario) -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <audio id="background-music" loop muted>
+    <source src="../assets/audio/Humbe.mp3" type="audio/mpeg" />
+    Tu navegador no soporta el elemento de audio.
   </audio>
 
-  <!-- Contenido principal -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- CONTENEDOR PRINCIPAL DE LA PÁGINA                               -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
   <main class="container">
-    
-    <!-- Barra de navegación con efecto neon -->
+
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- BARRA DE NAVEGACIÓN: Consistencia con el resto del sitio       -->
+    <!-- ────────────────────────────────────────────────────────────── -->
     <nav class="navbar neon-border">
       <div class="brand">MARTINA</div>
       <ul class="menu">
         <li><a href="../index.html">INICIO</a></li>
         <li><a href="historia.html">HISTORIA</a></li>
-        <li><a href="#" class="active">JUEGO</a></li>
+        <li><a href="#" class="active" aria-current="page">JUEGO</a></li>
       </ul>
     </nav>
 
-    <!-- Juego del dinosaurio -->
-    <section class="story-content neon-border">
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- SECCIÓN DEL JUEGO: Instrucciones + área interactiva            -->
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <section class="story-content neon-border" aria-label="Juego del Ninasaurio">
       <h1>JUEGO DEL NINASAURIO</h1>
-      <p>Presiona <strong>ESPACIO</strong> para saltar y esquivar los cactus. ¡Demuestra cuánto puedes aguantar!</p>
-      
+      <p>
+        Presiona <strong>ESPACIO</strong> para saltar y esquivar los cactus.  
+        ¡Demuestra cuánto puedes aguantar!
+      </p>
+
+      <!-- Contenedor del juego (estructura semántica mínima para CSS/JS) -->
       <div class="game-wrapper">
-        <div class="contenedor-juego">
-          <div class="suelo"></div>
-          <div class="dino dino-corriendo"></div>
-          <div class="score">0</div>
+        <div class="contenedor-juego" role="application" aria-label="Área de juego del Ninasaurio">
+          <div class="suelo" aria-hidden="true"></div>
+          <div class="dino dino-corriendo" aria-label="Ninasaurio"></div>
+          <div class="score" aria-live="polite">0</div>
+          <div class="game-over" aria-live="assertive" hidden>GAME OVER</div>
         </div>
-        <div class="game-over">GAME OVER</div>
       </div>
     </section>
 
   </main>
 
-  <!-- Script de música -->
-  <script src="../assets/js/musica.js"></script>
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- SCRIPTS: Módulos funcionales (ordenados por dependencia)       -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <script src="../assets/js/musica.js"></script>   <!-- Activa audio tras primera interacción -->
+  <script src="../assets/js/juego.js"></script>    <!-- Lógica principal del juego Dino -->
 
-  <!-- Lógica del juego (ahora en archivo externo) -->
-  <script src="../assets/js/juego.js"></script>
 </body>
 </html>

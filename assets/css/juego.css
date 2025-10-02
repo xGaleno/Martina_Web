@@ -1,5 +1,14 @@
+/* ======================================================================
+   ESTILOS PARA EL JUEGO INTERACTIVO (DINO RUN)
+   Archivo: juego.css
+   Propósito: Estilos visuales y layout del mini-juego tipo "Dino Runner"
+   ====================================================================== */
 
-/* === ESTILOS DEL JUEGO === */
+/* ======================================================================
+   ENVOLTORIO Y CONTENEDOR PRINCIPAL
+   Centrado en pantalla con fondo neón y transición de ambiente
+   ====================================================================== */
+
 .game-wrapper {
   display: flex;
   justify-content: center;
@@ -20,27 +29,33 @@
   border-radius: 8px;
 }
 
-/* Cambios de ambiente */
+/* ---------------------------------------------------------------------- 
+   VARIANTES DE AMBIENTE (día, tarde, noche)
+   Cambian el color de fondo del contenedor según la hora o estado del juego
+   ---------------------------------------------------------------------- */
 .mediodia { background-color: #ffdcf3; }
 .tarde   { background-color: #ffadad; }
 .noche   { background-color: #aca8c7; }
 
-/* DINO - Estado normal y al morir */
-.dino {
-    width: 80px;          /* Aumentado de 84px */
-    height: 80px;         /* Aumentado de 84px */
-    
-    position: absolute;
-    bottom: 22px;
-    left: 42px;
-    z-index: 2;
+/* ======================================================================
+   ELEMENTOS DEL JUEGO
+   Sprites y posicionamiento de personaje, obstáculos y decoración
+   ====================================================================== */
 
-    background: url('../img/dino.png') no-repeat;
-    background-size: contain;
-    transition: none;
+/* ---------------------------- DINO (jugador) -------------------------- */
+.dino {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  bottom: 22px;
+  left: 42px;
+  z-index: 2;
+  background: url('../img/dino.png') no-repeat;
+  background-size: contain;
+  transition: none;
 }
 
-/* Suelo */
+/* ------------------------------ SUELO ------------------------------- */
 .suelo {
   width: 200%;
   height: 42px;
@@ -51,7 +66,7 @@
   background-size: 50% 42px;
 }
 
-/* Cactus */
+/* ----------------------------- CACTUS ------------------------------- */
 .cactus {
   width: 46px;
   height: 96px;
@@ -67,7 +82,7 @@
   background: url(../img/cactus2.png) no-repeat;
 }
 
-/* Nube */
+/* ------------------------------ NUBE ------------------------------- */
 .nube {
   width: 92px;
   height: 26px;
@@ -77,7 +92,12 @@
   background-size: 92px 26px;
 }
 
-/* Puntuación */
+/* ======================================================================
+   INTERFAZ DE USUARIO (UI)
+   Puntuación y pantalla de Game Over
+   ====================================================================== */
+
+/* --------------------------- PUNTUACIÓN ----------------------------- */
 .score {
   position: absolute;
   top: 10px;
@@ -86,11 +106,11 @@
   font-size: 28px;
   font-weight: bold;
   color: #5a0135;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   z-index: 10;
 }
 
-/* Game Over */
+/* -------------------------- GAME OVER ------------------------------- */
 .game-over {
   display: none;
   position: absolute;
@@ -102,23 +122,30 @@
   color: #000000;
   font-size: 36px;
   font-weight: bold;
-  text-shadow: 0 0 3px #ff69e6, 0 0 3px #e476ee;
+  text-shadow: 
+    0 0 3px #ff69e6,
+    0 0 3px #e476ee;
   z-index: 20;
   animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-  0% { opacity: 0.8; }
-  50% { opacity: 1; }
+  0%   { opacity: 0.8; }
+  50%  { opacity: 1; }
   100% { opacity: 0.8; }
 }
 
-/* Responsive */
+/* ======================================================================
+   ADAPTACIÓN RESPONSIVE
+   Ajustes para pantallas medianas y móviles
+   ====================================================================== */
+
 @media (max-width: 980px) {
   .contenedor-juego {
     width: 100%;
     height: 220px;
   }
+
   .score {
     font-size: 24px;
     right: 15px;
@@ -129,9 +156,11 @@
   .contenedor-juego {
     height: 180px;
   }
-  .dino, .cactus, .nube {
+
+  .dino,
+  .cactus,
+  .nube {
     transform: scale(0.8);
     transform-origin: bottom left;
   }
-
 }

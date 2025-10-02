@@ -1,52 +1,80 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Feliz 8 meses, Martineishon</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz 8 meses, Martineishon</title>
 
-    <!-- Tipografía Poppins desde Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- FUENTES: Tipografía Poppins (ligera precarga para rendimiento) -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+    rel="stylesheet"
+  />
 
-    <!-- Estilos CSS modularizados -->
-    <link rel="stylesheet" href="../assets/css/regalos_menu.css">
-    <link rel="stylesheet" href="../assets/css/regalos_corazon.css">
-    <link rel="stylesheet" href="../assets/css/regalos_flores.css">
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ESTILOS: Módulos temáticos (menú → corazón → escena de regalo) -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="../assets/css/regalos_menu.css" />
+  <link rel="stylesheet" href="../assets/css/regalos_corazon.css" />
+  <link rel="stylesheet" href="../assets/css/regalos_flores.css" />
 </head>
+
 <body>
 
-    <!-- Música de fondo -->
-    <audio id="background-music" loop autoplay muted>
-        <source src="../assets/audio/Humbe.mp3" type="audio/mpeg">
-    </audio>
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- AUDIO: Música de fondo (inicialmente silenciada)               -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <audio id="background-music" loop muted>
+    <source src="../assets/audio/Humbe.mp3" type="audio/mpeg" />
+    Tu navegador no soporta el elemento de audio.
+  </audio>
 
-    <main class="container">
-        <!-- Navbar con efecto neon -->
-        <nav class="navbar neon-border">
-            <div class="brand">MARTINA</div>
-            <ul class="menu">
-                <li><a href="../index.html">INICIO</a></li>
-                <li><a href="../pages/historia.html">HISTORIA</a></li>
-                <li><a href="/pages/juego.html">JUEGO</a></li>
-            </ul>
-        </nav>
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- CONTENEDOR PRINCIPAL DE LA PÁGINA                               -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <main class="container">
 
-        <!-- Hero con corazón y título -->
-        <section class="hero neon-border">
-            <canvas id="heart"></canvas>
-            <!-- Flechas de navegación -->
-            <button class="nav-arrow left">‹</button>
-            <button class="nav-arrow right">›</button>
-            <div class="title">
-                <div class="placeholder-space"></div>
-            </div>
-        </section>
-    </main>
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- BARRA DE NAVEGACIÓN: Consistencia con el resto del sitio       -->
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <nav class="navbar neon-border">
+      <div class="brand">MARTINA</div>
+      <ul class="menu">
+        <li><a href="../index.html">INICIO</a></li>
+        <li><a href="../pages/historia.html">HISTORIA</a></li>
+        <li><a href="../pages/juego.html">JUEGO</a></li>
+      </ul>
+    </nav>
 
-    <!-- Scripts modularizados -->
-    <script src="../assets/js/regalos_corazon.js" defer></script>
-    <script src="../assets/js/regalos_flores.js" defer></script>
-    <script src="../assets/js/regalos_menu.js" defer></script>
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- HERO: Escena interactiva (corazón animado + navegación)        -->
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <section class="hero neon-border" aria-label="Escena interactiva de regalo">
+      <!-- Canvas para la animación del corazón -->
+      <canvas id="heart" aria-hidden="true"></canvas>
+
+      <!-- Controles de navegación entre vistas -->
+      <button class="nav-arrow left" aria-label="Volver a la animación del corazón">‹</button>
+      <button class="nav-arrow right" aria-label="Ver escena de regalo con videos">›</button>
+
+      <!-- Espacio reservado para título dinámico (usado por JS si se implementa) -->
+      <div class="title" aria-hidden="true">
+        <div class="placeholder-space"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- SCRIPTS: Módulos funcionales (cargan tras el HTML, sin bloquear) -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <script src="../assets/js/regalos_corazon.js" defer></script> <!-- Módulo de animación del corazón -->
+  <script src="../assets/js/regalos_flores.js" defer></script>   <!-- Módulo de escena de video (flores + niña) -->
+  <script src="../assets/js/regalos_menu.js" defer></script>     <!-- Lógica de navegación y control global -->
+
 </body>
 </html>

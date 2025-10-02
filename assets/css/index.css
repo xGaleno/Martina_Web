@@ -1,8 +1,14 @@
-/* index.css */
+/* ======================================================================
+   ESTILOS PRINCIPALES DEL SITIO
+   Archivo: index.css
+   Propósito: Estilos base, layout general y componentes comunes del home
+   ====================================================================== */
 
-/* ========================================
-   RESET Y BASE
-======================================== */
+/* ======================================================================
+   RESET Y VARIABLES GLOBALES
+   Establece base consistente y define la paleta de neón
+   ====================================================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -23,6 +29,10 @@
     0 0 35px var(--neon-glow-strong);
 }
 
+/* ---------------------------------------------------------------------- 
+   ESTILOS GENERALES DEL CUERPO
+   Fondo degradado oscuro con efecto radial sutil
+   ---------------------------------------------------------------------- */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #120429, #000000, #120429);
@@ -32,6 +42,7 @@ body {
   min-height: 100vh;
 }
 
+/* Efecto radial decorativo (no interactivo) */
 body::before {
   content: "";
   position: fixed;
@@ -44,12 +55,17 @@ body::before {
   z-index: -1;
 }
 
+/* Contenedor principal centrado */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
+/* ---------------------------------------------------------------------- 
+   ESTILO NEÓN REUTILIZABLE
+   Para tarjetas, secciones o elementos destacados
+   ---------------------------------------------------------------------- */
 .neon-border {
   border: var(--neon-border-width, 2px) solid var(--neon-color);
   box-shadow: var(--neon-shadow-soft);
@@ -63,9 +79,10 @@ body::before {
   transform: translateY(-2px);
 }
 
-/* ========================================
-   NAVBAR
-======================================== */
+/* ======================================================================
+   BARRA DE NAVEGACIÓN
+   Diseño translúcido con efecto de vidrio y branding personalizado
+   ====================================================================== */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -109,9 +126,10 @@ body::before {
   text-shadow: 0 0 8px #ff69b4;
 }
 
-/* ========================================
-   HERO SECTION (solo el contenedor, sin imagen)
-======================================== */
+/* ======================================================================
+   SECCIÓN HERO
+   Contenido principal con tipografía destacada y espacio para imagen
+   ====================================================================== */
 .hero {
   display: flex;
   background: rgba(0, 0, 0, 0.9);
@@ -144,9 +162,10 @@ body::before {
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
-/* ========================================
-   BOTONES
-======================================== */
+/* ======================================================================
+   BOTONES DE ACCIÓN
+   Estilo llamativo con degradado neón y efecto hover
+   ====================================================================== */
 .btn-shop {
   background: linear-gradient(135deg, #ff69b4, #8a2be2);
   color: #fff;
@@ -169,9 +188,10 @@ body::before {
   box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
 }
 
-/* ========================================
-   ANIMACIONES
-======================================== */
+/* ======================================================================
+   ANIMACIONES DE TRANSICIÓN
+   Para efectos de cambio de página o carga suave
+   ====================================================================== */
 .fade-out {
   opacity: 1;
   transition: opacity 0.8s ease-out;

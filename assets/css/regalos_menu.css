@@ -1,141 +1,173 @@
-/* === Variables CSS (compartidas, pero necesarias en todos) === */
+/* ======================================================================
+   ESTILOS PARA LA PÁGINA DE MENÚ DE REGALOS
+   Archivo: regalos_menu.css
+   Propósito: Layout base, navbar y estilos compartidos para la sección de regalos
+   ====================================================================== */
+
+/* ======================================================================
+   VARIABLES GLOBALES
+   Define colores, sombras y tipografía para coherencia en todo el sitio
+   ====================================================================== */
+
 :root {
-    --bg-color: #0d0d0d;
-    --text-color: #f0f0f0;
-    --neon-color: #8a2be2;
-    --neon-glow: rgba(138, 43, 226, 0.3);
-    --neon-glow-strong: rgba(138, 43, 226, 0.5);
-    --font-family-poppins: 'Poppins', sans-serif;
-    --neon-border-width: 2px;
-    --neon-shadow-soft: 
-        0 0 8px var(--neon-glow),
-        0 0 15px var(--neon-glow),
-        0 0 25px var(--neon-glow-strong);
-    --neon-shadow-strong: 
-        0 0 10px var(--neon-glow),
-        0 0 20px var(--neon-glow),
-        0 0 35px var(--neon-glow-strong);
+  --bg-color: #0d0d0d;
+  --text-color: #f0f0f0;
+  --neon-color: #8a2be2;
+  --neon-glow: rgba(138, 43, 226, 0.3);
+  --neon-glow-strong: rgba(138, 43, 226, 0.5);
+  --font-family-poppins: 'Poppins', sans-serif;
+  --neon-border-width: 2px;
+  --neon-shadow-soft: 
+    0 0 8px var(--neon-glow),
+    0 0 15px var(--neon-glow),
+    0 0 25px var(--neon-glow-strong);
+  --neon-shadow-strong: 
+    0 0 10px var(--neon-glow),
+    0 0 20px var(--neon-glow),
+    0 0 35px var(--neon-glow-strong);
 }
 
-/* === Estilos generales base === */
+/* ======================================================================
+   RESET Y ESTILOS BASE DEL CUERPO
+   Fondo degradado con efecto radial y centrado absoluto
+   ====================================================================== */
+
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background: linear-gradient(135deg, #120429, #000000, #120429);
-    color: var(--text-color);
-    font-family: var(--font-family-poppins);
-    min-height: 100vh;
-    background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+  background: linear-gradient(135deg, #120429, #000000, #120429);
+  color: var(--text-color);
+  font-family: var(--font-family-poppins);
+  min-height: 100vh;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
+/* Efecto radial decorativo (no interactivo) */
 body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(255, 105, 180, 0.1), transparent 70%);
-    pointer-events: none;
-    z-index: -1;
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 105, 180, 0.1), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
 }
 
-/* === Layout principal === */
+/* ======================================================================
+   CONTENEDOR PRINCIPAL
+   Define el área de contenido con dimensiones responsivas
+   ====================================================================== */
+
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 90vw;
-    max-width: 1200px;
-    height: 90vh;
-    max-height: 800px;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  max-width: 1200px;
+  height: 90vh;
+  max-height: 800px;
+  gap: 20px;
 }
 
-/* === Navbar y menú === */
+/* ======================================================================
+   BARRA DE NAVEGACIÓN
+   Diseño con efecto de vidrio y animación de subrayado neón
+   ====================================================================== */
+
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .brand {
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-shadow: 0 0 5px var(--neon-color), 0 0 10px var(--neon-glow);
-    color: #fff;
-    display: flex;
-    align-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 
+    0 0 5px var(--neon-color),
+    0 0 10px var(--neon-glow);
+  color: #fff;
+  display: flex;
+  align-items: center;
 }
 
 .brand::before {
-    content: "💗";
-    margin-right: 8px;
-    color: #ff69b4;
+  content: "💗";
+  margin-right: 8px;
+  color: #ff69b4;
 }
 
 .menu {
-    list-style: none;
-    display: flex;
-    gap: 20px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
 .menu a {
-    color: #ccc;
-    text-decoration: none;
-    font-weight: 500;
-    position: relative;
-    transition: color 0.3s ease;
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
 }
 
+/* Subrayado animado con efecto neón */
 .menu a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: var(--neon-color);
-    bottom: -5px;
-    left: 0;
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: var(--neon-color);
+  bottom: -5px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
 }
 
 .menu a:hover {
-    color: var(--neon-color);
+  color: var(--neon-color);
 }
 
 .menu a:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
-/* Media Queries para menú */
+/* ======================================================================
+   ADAPTACIÓN RESPONSIVE
+   Ajustes para dispositivos móviles
+   ====================================================================== */
+
 @media (max-width: 768px) {
-    .container {
-        width: 95vw;
-        gap: 10px;
-    }
-    .navbar {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
-    .menu {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .container {
+    width: 95vw;
+    gap: 10px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .menu {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

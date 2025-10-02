@@ -4,29 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Primer Año de Conocernos - Martina</title>
-  
-  <!-- Estilos principales -->
+
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ESTILOS: Capas de diseño modular (base → componentes → efectos) -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
   <link rel="stylesheet" href="assets/css/index.css" />
-  
-  <!-- Estilos específicos de imágenes (¡nuevo!) -->
   <link rel="stylesheet" href="assets/css/imagenes.css" />
-  
-  <!-- Animaciones (si las usas en otras partes) -->
   <link rel="stylesheet" href="assets/css/animaciones.css" />
 </head>
 
 <body>
 
-  <!-- Música de fondo -->
-  <audio id="background-music" loop autoplay muted>
-    <source src="assets/audio/Musica.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio.
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- AUDIO: Música de fondo (controlado por script externo)          -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <audio id="background-music" loop muted>
+    <source src="assets/audio/Musica.mp3" type="audio/mpeg" />
+    Tu navegador no soporta el elemento de audio.
   </audio>
 
-  <!-- Contenido principal -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- CONTENEDOR PRINCIPAL DE LA PÁGINA                               -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
   <main class="container">
-    
-    <!-- Barra de navegación -->
+
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- BARRA DE NAVEGACIÓN: Identidad y enlaces principales           -->
+    <!-- ────────────────────────────────────────────────────────────── -->
     <nav class="navbar neon-border">
       <div class="brand">MARTINA</div>
       <ul class="menu">
@@ -36,13 +40,15 @@
       </ul>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- HERO: Mensaje central + llamado a la acción                    -->
+    <!-- ────────────────────────────────────────────────────────────── -->
     <section class="hero neon-border">
       <div class="hero-content">
         <h1>Primer Año Juntos</h1>
         <p>
-          Este primer año ha sido solo el comienzo.
-          Y aunque el tiempo pase, quiero que sepas que cada día, elegiré amarte un poco más,
+          Este primer año ha sido solo el comienzo.  
+          Y aunque el tiempo pase, quiero que sepas que cada día, elegiré amarte un poco más,  
           cuidarte un poco más, y vivir cada instante contigo como si fuera el primero… y el más importante.
         </p>
         <button class="btn-shop" onclick="window.location.href='pages/regalos.html'">
@@ -50,80 +56,59 @@
         </button>
       </div>
       <div class="hero-image-container">
-        <img src="assets/img/martina.png" alt="Martina" class="hero-image" />
+        <img src="assets/img/martina.png" alt="Martina" class="hero-image" loading="lazy" />
       </div>
     </section>
 
-    <!-- Galería 1: Primer Año -->
-    <section class="gallery-section">
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- GALERÍA 1: Recuerdos del Primer Año                            -->
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <section class="gallery-section" aria-label="Recuerdos del primer año">
       <div class="gallery-slider neon-border">
         <div class="gallery-content">
-          <div class="gallery-item">
-            <img src="assets/img/Primer_Año (1).png" alt="Foto 1 del primer año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Primer_Año (2).png" alt="Foto 2 del primer año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Primer_Año (3).png" alt="Foto 3 del primer año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Primer_Año (4).png" alt="Foto 4 del primer año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Primer_Año (5).png" alt="Foto 5 del primer año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Primer_Año (6).png" alt="Foto 6 del primer año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Primer_Año (7).png" alt="Foto 7 del primer año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Primer_Año (8).png" alt="Foto 8 del primer año" />
-          </div>
+          <!-- Imágenes numeradas para facilitar mantenimiento -->
+          <div class="gallery-item"><img src="assets/img/Primer_Año (1).png" alt="Foto 1 del primer año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Primer_Año (2).png" alt="Foto 2 del primer año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Primer_Año (3).png" alt="Foto 3 del primer año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Primer_Año (4).png" alt="Foto 4 del primer año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Primer_Año (5).png" alt="Foto 5 del primer año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Primer_Año (6).png" alt="Foto 6 del primer año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Primer_Año (7).png" alt="Foto 7 del primer año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Primer_Año (8).png" alt="Foto 8 del primer año" loading="lazy" /></div>
         </div>
       </div>
     </section>
 
-    <!-- Separador entre galerías -->
-    <div class="gallery-divider"></div>
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- SEPARADOR VISUAL ENTRE GALERÍAS                                -->
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <div class="gallery-divider" aria-hidden="true"></div>
 
-    <!-- Galería 2: Segundo Año -->
-    <section class="gallery-section">
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- GALERÍA 2: Recuerdos del Segundo Año                           -->
+    <!-- ────────────────────────────────────────────────────────────── -->
+    <section class="gallery-section" aria-label="Recuerdos del segundo año">
       <div class="gallery-slider neon-border">
         <div class="gallery-content">
-          <div class="gallery-item">
-            <img src="assets/img/Segundo_Año (1).png" alt="Foto 1 del segundo año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Segundo_Año (2).png" alt="Foto 2 del segundo año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Segundo_Año (3).png" alt="Foto 3 del segundo año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Segundo_Año (4).png" alt="Foto 4 del segundo año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Segundo_Año (5).png" alt="Foto 5 del segundo año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Segundo_Año (6).png" alt="Foto 6 del segundo año" />
-          </div>
-          <div class="gallery-item">
-            <img src="assets/img/Segundo_Año (7).png" alt="Foto 7 del segundo año" />
-          </div>
+          <div class="gallery-item"><img src="assets/img/Segundo_Año (1).png" alt="Foto 1 del segundo año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Segundo_Año (2).png" alt="Foto 2 del segundo año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Segundo_Año (3).png" alt="Foto 3 del segundo año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Segundo_Año (4).png" alt="Foto 4 del segundo año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Segundo_Año (5).png" alt="Foto 5 del segundo año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Segundo_Año (6).png" alt="Foto 6 del segundo año" loading="lazy" /></div>
+          <div class="gallery-item"><img src="assets/img/Segundo_Año (7).png" alt="Foto 7 del segundo año" loading="lazy" /></div>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Scripts (¡sin duplicados!) -->
-  <script src="assets/js/imagenes.js"></script>
-  <script src="assets/js/nosotros.js"></script>
-  <script src="assets/js/musica.js"></script>
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- SCRIPTS: Módulos funcionales (ordenados por propósito)         -->
+  <!-- ──────────────────────────────────────────────────────────────── -->
+  <script src="assets/js/musica.js"></script>      <!-- Control de audio -->
+  <script src="assets/js/imagenes.js"></script>    <!-- Galería interactiva -->
+  <script src="assets/js/nosotros.js"></script>    <!-- Lógica general de la página -->
 
 </body>
 </html>

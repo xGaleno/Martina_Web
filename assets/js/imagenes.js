@@ -1,36 +1,50 @@
+/**
+ * ======================================================================
+ * GESTIÓN DE DESPLAZAMIENTO POR ARRASTRE EN GALERÍAS
+ * Archivo: assets/js/imagenes.js
+ * Propósito: Habilitar scroll horizontal mediante arrastre en .gallery-slider
+ * ======================================================================
+ */
 
-// assets/js/imagenes.js
 document.addEventListener('DOMContentLoaded', () => {
-  // Selecciona todos los contenedores .gallery-slider
+  // Selecciona todas las galerías con clase .gallery-slider
   const gallerySliders = document.querySelectorAll('.gallery-slider');
 
+  // Configura el comportamiento de arrastre para cada galería
   gallerySliders.forEach((slider) => {
     let isDragging = false;
     let startX = 0;
     let scrollLeft = 0;
 
-    // Iniciar arrastre
+    /**
+     * Inicia el arrastre al hacer clic dentro del contenedor de la galería
+     */
     slider.addEventListener('mousedown', (e) => {
-      // Solo activa el arrastre si haces clic directamente en el slider o dentro de él
+      // Verifica que el clic ocurra directamente en el slider o en sus hijos
       if (e.target === slider || e.target.closest('.gallery-slider') === slider) {
         isDragging = true;
         slider.style.cursor = 'grabbing';
-        startX = e.pageX; // ✅ Quitamos - slider.offsetLeft
-        scrollLeft = slider.scrollLeft;
-        e.preventDefault(); // Previene selección de texto
+        startX = e.pageX; // Posición inicial del puntero
+        scrollLeft = slider.scrollLeft; // Punto de partida del scroll
+        e.preventDefault(); // Evita selección de texto durante el arrastre
       }
     });
 
-    // Mover (drag)
+    /**
+     * Maneja el movimiento del puntero para desplazar la galería
+     */
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
       e.preventDefault();
-      const x = e.pageX; // ✅ Quitamos - slider.offsetLeft
-      const walk = (x - startX) * 2; // Velocidad del desplazamiento
+
+      const x = e.pageX;
+      const walk = (x - startX) * 2; // Factor de velocidad (2x más sensible)
       slider.scrollLeft = scrollLeft - walk;
     });
 
-    // Soltar (fin del arrastre)
+    /**
+     * Finaliza el arrastre al soltar el botón del mouse
+     */
     document.addEventListener('mouseup', () => {
       if (isDragging) {
         isDragging = false;
@@ -38,7 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Salir del área del slider
+    /**
+     * Cancela el arrastre si el puntero sale del área de la galería
+     */
     slider.addEventListener('mouseleave', () => {
       if (isDragging) {
         isDragging = false;
@@ -46,8 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Aseguramos que el cursor inicial sea 'grab'
+    // Establece el cursor inicial para indicar que es arrastrable
     slider.style.cursor = 'grab';
   });
-
 });

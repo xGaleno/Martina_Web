@@ -1,41 +1,68 @@
+/**
+ * ======================================================================
+ * GESTIÓN DE DESPLAZAMIENTO POR ARRASTRE EN GALERÍAS – PÁGINA "NOSOTROS"
+ * Archivo: assets/js/nosotros.js
+ * Propósito: Habilitar scroll horizontal mediante arrastre en galerías
+ * ======================================================================
+ */
 
-// assets/js/imagenes.js
 document.addEventListener('DOMContentLoaded', () => {
-  // Selecciona TODOS los sliders y contenidos
+  // Selecciona todas las galerías y sus contenedores internos
   const gallerySliders = document.querySelectorAll('.gallery-slider');
-  const galleryContents = document.querySelectorAll('.gallery-content');
 
+  // Configura el comportamiento de arrastre para cada galería
   gallerySliders.forEach((slider) => {
     let isDragging = false;
-    let startX, scrollLeft;
+    let startX = 0;
+    let scrollLeft = 0;
 
+    /**
+     * Inicia el arrastre al hacer clic dentro del área del slider
+     */
     slider.addEventListener('mousedown', (e) => {
-      if (e.target === slider || e.target.closest('.gallery-slider')) {
+      // Verifica que el clic ocurra en el slider o en sus descendientes directos
+      if (e.target === slider || e.target.closest('.gallery-slider') === slider) {
         isDragging = true;
         slider.style.cursor = 'grabbing';
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-        e.preventDefault();
+        startX = e.pageX - slider.offsetLeft; // Posición relativa al contenedor
+        scrollLeft = slider.scrollLeft;       // Punto de partida del scroll
+        e.preventDefault();                   // Evita selección de texto
       }
     });
 
+    /**
+     * Mueve la galería mientras se arrastra
+     */
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
       e.preventDefault();
+
       const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 2;
+      const walk = (x - startX) * 2; // Factor de sensibilidad (2x)
       slider.scrollLeft = scrollLeft - walk;
     });
 
+    /**
+     * Finaliza el arrastre al soltar el botón del mouse
+     */
     document.addEventListener('mouseup', () => {
-      isDragging = false;
-      slider.style.cursor = 'grab';
+      if (isDragging) {
+        isDragging = false;
+        slider.style.cursor = 'grab';
+      }
     });
 
+    /**
+     * Cancela el arrastre si el puntero sale del área del slider
+     */
     slider.addEventListener('mouseleave', () => {
-      isDragging = false;
-      slider.style.cursor = 'grab';
+      if (isDragging) {
+        isDragging = false;
+        slider.style.cursor = 'grab';
+      }
     });
-  });
 
+    // Establece el cursor inicial para indicar que es arrastrable
+    slider.style.cursor = 'grab';
+  });
 });
