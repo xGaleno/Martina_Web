@@ -51,7 +51,7 @@
   bottom: 22px;
   left: 42px;
   z-index: 2;
-  background: url('../img/dino1.png') no-repeat;
+  background: url('../img/game/dino1.png') no-repeat;
   background-size: contain;
   transition: none;
 }
