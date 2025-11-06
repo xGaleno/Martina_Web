@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JUEGO - Martina</title>
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- ESTILOS: Capas de diseño (base → transiciones → lógica de juego) -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 🎨 ESTILOS ─────────────────────── -->
+  <!-- Capas de diseño (base → transiciones → lógica de juego) -->
+  <!-- ─────────────────────── 🎨 ESTILOS ─────────────────────── -->
+
   <link rel="stylesheet" href="../assets/css/historia.css" />      <!-- Estilos base compartidos (neón, fondo, tipografía) -->
   <link rel="stylesheet" href="../assets/css/animaciones.css" />   <!-- Transiciones y efectos suaves -->
   <link rel="stylesheet" href="../assets/css/juego.css" />         <!-- Estilos específicos del juego Dino -->
@@ -15,22 +16,25 @@
 
 <body>
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- AUDIO: Música de fondo (controlada por interacción del usuario) -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 🎵 AUDIO ─────────────────────── -->
+  <!-- Música de fondo (controlada por interacción del usuario) -->
+  <!-- ─────────────────────── 🎵 AUDIO ─────────────────────── -->
+
   <audio id="background-music" loop muted>
     <source src="../assets/audio/Humbe.mp3" type="audio/mpeg" />
     Tu navegador no soporta el elemento de audio.
   </audio>
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- CONTENEDOR PRINCIPAL DE LA PÁGINA                               -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 🧱 CONTENEDOR PRINCIPAL ─────────────────────── -->
+  <!-- Contenedor principal de la página -->
+  <!-- ─────────────────────── 🧱 CONTENEDOR PRINCIPAL ─────────────────────── -->
+
   <main class="container">
 
-    <!-- ────────────────────────────────────────────────────────────── -->
-    <!-- BARRA DE NAVEGACIÓN: Consistencia con el resto del sitio       -->
-    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- ─────────────────────── 🧭 BARRA DE NAVEGACIÓN ─────────────────────── -->
+    <!-- Consistencia con el resto del sitio -->
+    <!-- ─────────────────────── 🧭 BARRA DE NAVEGACIÓN ─────────────────────── -->
+
     <nav class="navbar neon-border">
       <div class="brand">MARTINA</div>
       <ul class="menu">
@@ -40,9 +44,10 @@
       </ul>
     </nav>
 
-    <!-- ────────────────────────────────────────────────────────────── -->
-    <!-- SECCIÓN DEL JUEGO: Instrucciones + área interactiva            -->
-    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- ─────────────────────── 🦖 SECCIÓN DEL JUEGO ─────────────────────── -->
+    <!-- Instrucciones + área interactiva -->
+    <!-- ─────────────────────── 🦖 SECCIÓN DEL JUEGO ─────────────────────── -->
+
     <section class="story-content neon-border" aria-label="Juego del Ninasaurio">
       <h1>JUEGO DEL NINASAURIO</h1>
       <p>
@@ -63,9 +68,10 @@
 
   </main>
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- SCRIPTS: Módulos funcionales (ordenados por dependencia)       -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 💻 SCRIPTS ─────────────────────── -->
+  <!-- Módulos funcionales (ordenados por dependencia) -->
+  <!-- ─────────────────────── 💻 SCRIPTS ─────────────────────── -->
+   
   <script src="../assets/js/musica.js"></script>   <!-- Activa audio tras primera interacción -->
   <script src="../assets/js/juego.js"></script>    <!-- Lógica principal del juego Dino -->
 

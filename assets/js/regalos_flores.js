@@ -1,16 +1,9 @@
-/**
- * ======================================================================
- * MÓDULO DE REGALO CON VIDEOS (FLORES + NIÑA)
- * Archivo: regalos_flores.js
- * Propósito: Alternar entre la animación del corazón y una escena de video
- *            al hacer clic en las flechas de navegación.
- * ======================================================================
- */
+// ─────────────── 🎁 ESCENA DE REGALO CON VIDEOS ───────────────
+// assets/js/regalos_flores.js — Alterna entre corazón animado y escena de flores + niña
 
 document.addEventListener('DOMContentLoaded', () => {
-  // ────────────────────────────────────────────────────────────────────
+
   // REFERENCIAS Y VALIDACIÓN INICIAL
-  // ────────────────────────────────────────────────────────────────────
 
   const heartModule = window.HeartAnimation;
   if (!heartModule) return; // Salir si el módulo de corazón no está disponible
@@ -21,13 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentView = 'heart'; // Estado actual: 'heart' o 'gift'
 
-  // ────────────────────────────────────────────────────────────────────
   // FUNCIONES DE CONTROL DE VISTAS
-  // ────────────────────────────────────────────────────────────────────
 
-  /**
-   * Muestra la escena de regalo con videos de fondo y central
-   */
+  // Muestra la escena de regalo con videos de fondo y central
   function showGift() {
     heartModule.stop();
     currentView = 'gift';
@@ -98,9 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     heroSection.appendChild(videoContainer);
   }
 
-  /**
-   * Regresa a la vista del corazón animado
-   */
+  // Regresa a la vista del corazón animado
   function showHeart() {
     const giftVideoContainer = document.getElementById('gift-video-container');
     if (giftVideoContainer) {
@@ -110,9 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     heartModule.restart();
   }
 
-  // ────────────────────────────────────────────────────────────────────
   // INICIALIZACIÓN Y EVENTOS
-  // ────────────────────────────────────────────────────────────────────
 
   // Asignar eventos a las flechas de navegación (con verificación de existencia)
   rightArrow?.addEventListener('click', showGift);

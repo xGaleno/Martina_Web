@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Feliz 8 meses, Martineishon</title>
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- FUENTES: Tipografía Poppins (ligera precarga para rendimiento) -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 🔤 FUENTES ─────────────────────── -->
+  <!-- Tipografía Poppins (ligera precarga para rendimiento) -->
+  <!-- ─────────────────────── 🔤 FUENTES ─────────────────────── -->
+   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -15,9 +16,10 @@
     rel="stylesheet"
   />
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- ESTILOS: Módulos temáticos (menú → corazón → escena de regalo) -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 🎨 ESTILOS ─────────────────────── -->
+  <!-- Módulos temáticos (menú → corazón → escena de regalo) -->
+  <!-- ─────────────────────── 🎨 ESTILOS ─────────────────────── -->
+
   <link rel="stylesheet" href="../assets/css/regalos_menu.css" />
   <link rel="stylesheet" href="../assets/css/regalos_corazon.css" />
   <link rel="stylesheet" href="../assets/css/regalos_flores.css" />
@@ -25,22 +27,25 @@
 
 <body>
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- AUDIO: Música de fondo (inicialmente silenciada)               -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 🎵 AUDIO ─────────────────────── -->
+  <!-- Música de fondo (inicialmente silenciada) -->
+  <!-- ─────────────────────── 🎵 AUDIO ─────────────────────── -->
+
   <audio id="background-music" loop muted>
     <source src="../assets/audio/Humbe.mp3" type="audio/mpeg" />
     Tu navegador no soporta el elemento de audio.
   </audio>
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- CONTENEDOR PRINCIPAL DE LA PÁGINA                               -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 🧱 CONTENEDOR PRINCIPAL ─────────────────────── -->
+  <!-- Contenedor principal de la página -->
+  <!-- ─────────────────────── 🧱 CONTENEDOR PRINCIPAL ─────────────────────── -->
+
   <main class="container">
 
-    <!-- ────────────────────────────────────────────────────────────── -->
-    <!-- BARRA DE NAVEGACIÓN: Consistencia con el resto del sitio       -->
-    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- ─────────────────────── 🧭 BARRA DE NAVEGACIÓN ─────────────────────── -->
+    <!-- Consistencia con el resto del sitio -->
+    <!-- ─────────────────────── 🧭 BARRA DE NAVEGACIÓN ─────────────────────── -->
+
     <nav class="navbar neon-border">
       <div class="brand">MARTINA</div>
       <ul class="menu">
@@ -50,9 +55,10 @@
       </ul>
     </nav>
 
-    <!-- ────────────────────────────────────────────────────────────── -->
-    <!-- HERO: Escena interactiva (corazón animado + navegación)        -->
-    <!-- ────────────────────────────────────────────────────────────── -->
+    <!-- ─────────────────────── 💖 HERO ─────────────────────── -->
+    <!-- Escena interactiva (corazón animado + navegación) -->
+    <!-- ─────────────────────── 💖 HERO ─────────────────────── -->
+
     <section class="hero neon-border" aria-label="Escena interactiva de regalo">
       <!-- Canvas para la animación del corazón -->
       <canvas id="heart" aria-hidden="true"></canvas>
@@ -69,9 +75,10 @@
 
   </main>
 
-  <!-- ──────────────────────────────────────────────────────────────── -->
-  <!-- SCRIPTS: Módulos funcionales (cargan tras el HTML, sin bloquear) -->
-  <!-- ──────────────────────────────────────────────────────────────── -->
+  <!-- ─────────────────────── 💻 SCRIPTS ─────────────────────── -->
+  <!-- Módulos funcionales (cargan tras el HTML, sin bloquear) -->
+  <!-- ─────────────────────── 💻 SCRIPTS ─────────────────────── -->
+   
   <script src="../assets/js/regalos_corazon.js" defer></script> <!-- Módulo de animación del corazón -->
   <script src="../assets/js/regalos_flores.js" defer></script>   <!-- Módulo de escena de video (flores + niña) -->
   <script src="../assets/js/regalos_menu.js" defer></script>     <!-- Lógica de navegación y control global -->

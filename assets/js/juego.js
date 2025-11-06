@@ -1,14 +1,7 @@
-/**
- * ======================================================================
- * JUEGO DINOSAURIO (DINO RUN)
- * Archivo: juego.js
- * Propósito: Lógica principal del mini-juego tipo "Chrome Dino"
- * ======================================================================
- */
+// ─────────────── 🦖 JUEGO DINOSAURIO ───────────────
+// assets/js/juego.js — Lógica principal del mini-juego tipo "Chrome Dino"
 
-// ──────────────────────────────────────────────────────────────────────
 // CONFIGURACIÓN INICIAL Y LOOP DEL JUEGO
-// ──────────────────────────────────────────────────────────────────────
 
 let time = new Date();
 let deltaTime = 0;
@@ -20,18 +13,14 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
   document.addEventListener('DOMContentLoaded', Init);
 }
 
-/**
- * Inicializa el juego y comienza el loop principal
- */
+// Inicializa el juego y comienza el loop principal
 function Init() {
   time = new Date();
   Start();
   Loop();
 }
 
-/**
- * Loop de animación principal (60 FPS aproximadamente)
- */
+// Loop de animación principal (60 FPS aproximadamente)
 function Loop() {
   deltaTime = (new Date() - time) / 1000;
   time = new Date();
@@ -39,9 +28,7 @@ function Loop() {
   requestAnimationFrame(Loop);
 }
 
-// ──────────────────────────────────────────────────────────────────────
 // VARIABLES DEL JUEGO
-// ──────────────────────────────────────────────────────────────────────
 
 // Física del dinosaurio
 const sueloY = 22;
@@ -85,13 +72,9 @@ let textoScore;
 let suelo;
 let gameOver;
 
-// ──────────────────────────────────────────────────────────────────────
 // INICIALIZACIÓN Y MANEJO DE EVENTOS
-// ──────────────────────────────────────────────────────────────────────
 
-/**
- * Configura referencias al DOM y escucha eventos de teclado
- */
+// Configura referencias al DOM y escucha eventos de teclado
 function Start() {
   gameOver = document.querySelector('.game-over');
   suelo = document.querySelector('.suelo');
@@ -101,9 +84,7 @@ function Start() {
   document.addEventListener('keydown', HandleKeyDown);
 }
 
-/**
- * Actualiza la lógica del juego en cada frame
- */
+// Actualiza la lógica del juego en cada frame
 function Update() {
   if (parado) return;
 
@@ -118,22 +99,16 @@ function Update() {
   velY -= gravedad * deltaTime;
 }
 
-/**
- * Maneja la tecla de salto (ESPACIO)
- */
+// Maneja la tecla de salto (ESPACIO)
 function HandleKeyDown(ev) {
   if (ev.keyCode === 32) {
     Saltar();
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────
 // COMPORTAMIENTO DEL DINOSAURIO
-// ──────────────────────────────────────────────────────────────────────
 
-/**
- * Aplica impulso vertical al dinosaurio si está en el suelo
- */
+// Aplica impulso vertical al dinosaurio si está en el suelo
 function Saltar() {
   if (dinoPosY === sueloY) {
     saltando = true;
@@ -142,9 +117,7 @@ function Saltar() {
   }
 }
 
-/**
- * Actualiza la posición vertical del dinosaurio con física de salto
- */
+// Actualiza la posición vertical del dinosaurio con física de salto
 function MoverDinosaurio() {
   dinoPosY += velY * deltaTime;
   if (dinoPosY < sueloY) {
@@ -153,9 +126,7 @@ function MoverDinosaurio() {
   dino.style.bottom = `${dinoPosY}px`;
 }
 
-/**
- * Restablece el estado del dinosaurio al tocar el suelo
- */
+// Restablece el estado del dinosaurio al tocar el suelo
 function TocarSuelo() {
   dinoPosY = sueloY;
   velY = 0;
@@ -165,28 +136,20 @@ function TocarSuelo() {
   saltando = false;
 }
 
-// ──────────────────────────────────────────────────────────────────────
 // ESCENARIO Y DECORACIÓN
-// ──────────────────────────────────────────────────────────────────────
 
-/**
- * Mueve el suelo en bucle para simular desplazamiento
- */
+// Mueve el suelo en bucle para simular desplazamiento
 function MoverSuelo() {
   sueloX += CalcularDesplazamiento();
   suelo.style.left = `-${sueloX % contenedor.clientWidth}px`;
 }
 
-/**
- * Calcula cuánto se debe mover el escenario en este frame
- */
+// Calcula cuánto se debe mover el escenario en este frame
 function CalcularDesplazamiento() {
   return velEscenario * deltaTime * gameVel;
 }
 
-/**
- * Decide si es momento de crear un nuevo obstáculo
- */
+// Decide si es momento de crear un nuevo obstáculo
 function DecidirCrearObstaculos() {
   tiempoHastaObstaculo -= deltaTime;
   if (tiempoHastaObstaculo <= 0) {
@@ -194,9 +157,7 @@ function DecidirCrearObstaculos() {
   }
 }
 
-/**
- * Decide si es momento de crear una nueva nube
- */
+// Decide si es momento de crear una nueva nube
 function DecidirCrearNubes() {
   tiempoHastaNube -= deltaTime;
   if (tiempoHastaNube <= 0) {
@@ -204,9 +165,7 @@ function DecidirCrearNubes() {
   }
 }
 
-/**
- * Crea un nuevo obstáculo (cactus) y lo añade al DOM
- */
+// Crea un nuevo obstáculo (cactus) y lo añade al DOM
 function CrearObstaculo() {
   const obstaculo = document.createElement('div');
   contenedor.appendChild(obstaculo);
@@ -219,9 +178,7 @@ function CrearObstaculo() {
     tiempoObstaculoMin + (Math.random() * (tiempoObstaculoMax - tiempoObstaculoMin)) / gameVel;
 }
 
-/**
- * Crea una nueva nube decorativa y la añade al DOM
- */
+// Crea una nueva nube decorativa y la añade al DOM
 function CrearNube() {
   const nube = document.createElement('div');
   contenedor.appendChild(nube);
@@ -234,13 +191,9 @@ function CrearNube() {
     tiempoNubeMin + (Math.random() * (tiempoNubeMax - tiempoNubeMin)) / gameVel;
 }
 
-// ──────────────────────────────────────────────────────────────────────
 // MOVIMIENTO DE OBJETOS
-// ──────────────────────────────────────────────────────────────────────
 
-/**
- * Mueve los obstáculos y elimina los que salen de pantalla
- */
+// Mueve los obstáculos y elimina los que salen de pantalla
 function MoverObstaculos() {
   for (let i = obstaculos.length - 1; i >= 0; i--) {
     if (obstaculos[i].posX < -obstaculos[i].clientWidth) {
@@ -254,9 +207,7 @@ function MoverObstaculos() {
   }
 }
 
-/**
- * Mueve las nubes (más lentas que los obstáculos)
- */
+// Mueve las nubes (más lentas que los obstáculos)
 function MoverNubes() {
   for (let i = nubes.length - 1; i >= 0; i--) {
     if (nubes[i].posX < -nubes[i].clientWidth) {
@@ -269,13 +220,9 @@ function MoverNubes() {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────
 // PUNTUACIÓN Y PROGRESIÓN
-// ──────────────────────────────────────────────────────────────────────
 
-/**
- * Incrementa la puntuación y ajusta la dificultad
- */
+// Incrementa la puntuación y ajusta la dificultad
 function GanarPuntos() {
   score++;
   textoScore.innerText = score;
@@ -296,13 +243,9 @@ function GanarPuntos() {
   suelo.style.animationDuration = `${3 / gameVel}s`;
 }
 
-// ──────────────────────────────────────────────────────────────────────
 // COLISIONES Y FIN DEL JUEGO
-// ──────────────────────────────────────────────────────────────────────
 
-/**
- * Detecta colisiones entre el dinosaurio y los obstáculos
- */
+// Detecta colisiones entre el dinosaurio y los obstáculos
 function DetectarColision() {
   for (let i = 0; i < obstaculos.length; i++) {
     // Optimización: si el obstáculo está muy adelante, no hay colisión posible
@@ -316,16 +259,7 @@ function DetectarColision() {
   }
 }
 
-/**
- * Verifica si dos elementos colisionan con márgenes ajustables
- * @param {Element} a - Elemento 1 (dino)
- * @param {Element} b - Elemento 2 (obstáculo)
- * @param {number} paddingTop
- * @param {number} paddingRight
- * @param {number} paddingBottom
- * @param {number} paddingLeft
- * @returns {boolean} - True si hay colisión
- */
+// Verifica si dos elementos colisionan con márgenes ajustables
 function IsCollision(a, b, paddingTop, paddingRight, paddingBottom, paddingLeft) {
   const aRect = a.getBoundingClientRect();
   const bRect = b.getBoundingClientRect();
@@ -338,9 +272,7 @@ function IsCollision(a, b, paddingTop, paddingRight, paddingBottom, paddingLeft)
   );
 }
 
-/**
- * Maneja el estado de "Game Over"
- */
+// Maneja el estado de "Game Over"
 function GameOver() {
   Estrellarse();
   gameOver.style.display = 'block';
@@ -358,22 +290,16 @@ function GameOver() {
   document.addEventListener('keydown', onKeyPress);
 }
 
-/**
- * Aplica efecto visual al dinosaurio al chocar
- */
+// Aplica efecto visual al dinosaurio al chocar
 function Estrellarse() {
   dino.classList.remove('dino-corriendo');
   dino.classList.add('dino-estrellado');
   parado = true;
 }
 
-// ──────────────────────────────────────────────────────────────────────
 // REINICIO DEL JUEGO
-// ──────────────────────────────────────────────────────────────────────
 
-/**
- * Restablece todas las variables y el DOM al estado inicial
- */
+// Restablece todas las variables y el DOM al estado inicial
 function ReiniciarJuego() {
   // Ocultar mensaje de Game Over
   gameOver.style.display = 'none';

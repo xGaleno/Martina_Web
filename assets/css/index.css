@@ -33,6 +33,7 @@
    ESTILOS GENERALES DEL CUERPO
    Fondo degradado oscuro con efecto radial sutil
    ---------------------------------------------------------------------- */
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #120429, #000000, #120429);
@@ -42,7 +43,6 @@ body {
   min-height: 100vh;
 }
 
-/* Efecto radial decorativo (no interactivo) */
 body::before {
   content: "";
   position: fixed;
@@ -55,7 +55,6 @@ body::before {
   z-index: -1;
 }
 
-/* Contenedor principal centrado */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -66,6 +65,7 @@ body::before {
    ESTILO NEÓN REUTILIZABLE
    Para tarjetas, secciones o elementos destacados
    ---------------------------------------------------------------------- */
+
 .neon-border {
   border: var(--neon-border-width, 2px) solid var(--neon-color);
   box-shadow: var(--neon-shadow-soft);
@@ -83,6 +83,7 @@ body::before {
    BARRA DE NAVEGACIÓN
    Diseño translúcido con efecto de vidrio y branding personalizado
    ====================================================================== */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -130,6 +131,7 @@ body::before {
    SECCIÓN HERO
    Contenido principal con tipografía destacada y espacio para imagen
    ====================================================================== */
+
 .hero {
   display: flex;
   background: rgba(0, 0, 0, 0.9);
@@ -166,6 +168,7 @@ body::before {
    BOTONES DE ACCIÓN
    Estilo llamativo con degradado neón y efecto hover
    ====================================================================== */
+
 .btn-shop {
   background: linear-gradient(135deg, #ff69b4, #8a2be2);
   color: #fff;
@@ -192,6 +195,7 @@ body::before {
    ANIMACIONES DE TRANSICIÓN
    Para efectos de cambio de página o carga suave
    ====================================================================== */
+   
 .fade-out {
   opacity: 1;
   transition: opacity 0.8s ease-out;

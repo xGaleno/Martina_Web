@@ -33,6 +33,7 @@
    VARIANTES DE AMBIENTE (día, tarde, noche)
    Cambian el color de fondo del contenedor según la hora o estado del juego
    ---------------------------------------------------------------------- */
+
 .mediodia { background-color: #ffdcf3; }
 .tarde   { background-color: #ffadad; }
 .noche   { background-color: #aca8c7; }
@@ -50,7 +51,7 @@
   bottom: 22px;
   left: 42px;
   z-index: 2;
-  background: url('../img/dino.png') no-repeat;
+  background: url('../img/dino1.png') no-repeat;
   background-size: contain;
   transition: none;
 }
@@ -62,7 +63,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  background: url(../img/suelo.png) repeat-x 0px 0px;
+  background: url(../img/game/suelo.png) repeat-x 0px 0px;
   background-size: 50% 42px;
 }
 
@@ -73,13 +74,13 @@
   position: absolute;
   bottom: 16px;
   z-index: 1;
-  background: url(../img/cactus1.png) no-repeat;
+  background: url(../img/game/cactus1.png) no-repeat;
 }
 
 .cactus2 {
   width: 98px;
   height: 66px;
-  background: url(../img/cactus2.png) no-repeat;
+  background: url(../img/game/cactus2.png) no-repeat;
 }
 
 /* ------------------------------ NUBE ------------------------------- */
@@ -88,7 +89,7 @@
   height: 26px;
   position: absolute;
   z-index: 0;
-  background: url(../img/nube.png) no-repeat;
+  background: url(../img/game/nube.png) no-repeat;
   background-size: 92px 26px;
 }
 

@@ -1,10 +1,5 @@
-/**
- * ======================================================================
- * GESTIÓN DE DESPLAZAMIENTO POR ARRASTRE EN GALERÍAS
- * Archivo: assets/js/imagenes.js
- * Propósito: Habilitar scroll horizontal mediante arrastre en .gallery-slider
- * ======================================================================
- */
+// ─────────────── 🖱️ GESTIÓN DE DESPLAZAMIENTO ───────────────
+// assets/js/imagenes.js — Scroll horizontal por arrastre en galerías
 
 document.addEventListener('DOMContentLoaded', () => {
   // Selecciona todas las galerías con clase .gallery-slider
@@ -16,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let startX = 0;
     let scrollLeft = 0;
 
-    /**
-     * Inicia el arrastre al hacer clic dentro del contenedor de la galería
-     */
+    // Inicia el arrastre al hacer clic dentro del contenedor de la galería
     slider.addEventListener('mousedown', (e) => {
       // Verifica que el clic ocurra directamente en el slider o en sus hijos
       if (e.target === slider || e.target.closest('.gallery-slider') === slider) {
@@ -30,9 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    /**
-     * Maneja el movimiento del puntero para desplazar la galería
-     */
+    // Maneja el movimiento del puntero para desplazar la galería
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
       e.preventDefault();
@@ -42,9 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       slider.scrollLeft = scrollLeft - walk;
     });
 
-    /**
-     * Finaliza el arrastre al soltar el botón del mouse
-     */
+    // Finaliza el arrastre al soltar el botón del mouse
     document.addEventListener('mouseup', () => {
       if (isDragging) {
         isDragging = false;
@@ -52,9 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    /**
-     * Cancela el arrastre si el puntero sale del área de la galería
-     */
+    // Cancela el arrastre si el puntero sale del área de la galería
     slider.addEventListener('mouseleave', () => {
       if (isDragging) {
         isDragging = false;

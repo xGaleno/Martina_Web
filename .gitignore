@@ -1,6 +1,6 @@
-# ────────────────────────────────────────────────────────────────────
-# ARCHIVOS DEL SISTEMA Y EDITORES
-# ────────────────────────────────────────────────────────────────────
+# ─────────────────────── 🗃️ SISTEMA Y EDITORES ───────────────────────
+# Archivos del sistema y editores
+# ─────────────────────── 🗃️ SISTEMA Y EDITORES ───────────────────────
 
 .DS_Store
 Thumbs.db
@@ -19,9 +19,9 @@ desktop.ini
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# ────────────────────────────────────────────────────────────────────
-# DEPENDENCIAS Y CONSTRUCCIÓN
-# ────────────────────────────────────────────────────────────────────
+# ─────────────────────── ⚙️ DEPENDENCIAS Y BUILD ───────────────────────
+# Dependencias, logs y salidas de construcción
+# ─────────────────────── ⚙️ DEPENDENCIAS Y BUILD ───────────────────────
 
 node_modules/
 npm-debug.log*
@@ -37,9 +37,9 @@ out/
 .nuxt/
 .cache/
 
-# ────────────────────────────────────────────────────────────────────
-# ENTORNOS Y CONFIGURACIÓN SENSIBLE
-# ────────────────────────────────────────────────────────────────────
+# ─────────────────────── 🔒 ENTORNOS SENSIBLES ───────────────────────
+# Variables de entorno y configuración privada
+# ─────────────────────── 🔒 ENTORNOS SENSIBLES ───────────────────────
 
 .env
 .env.local
@@ -47,9 +47,9 @@ out/
 .env.test.local
 .env.production.local
 
-# ────────────────────────────────────────────────────────────────────
-# OTROS ARCHIVOS TEMPORALES O GENERADOS
-# ────────────────────────────────────────────────────────────────────
+# ─────────────────────── 🗑️ ARCHIVOS TEMPORALES ───────────────────────
+# Logs, cobertura y archivos generados
+# ─────────────────────── 🗑️ ARCHIVOS TEMPORALES ───────────────────────
 
 coverage/
 .nyc_output/

@@ -1,10 +1,5 @@
-/**
- * ======================================================================
- * GESTIÓN DE DESPLAZAMIENTO POR ARRASTRE EN GALERÍAS – PÁGINA "NOSOTROS"
- * Archivo: assets/js/nosotros.js
- * Propósito: Habilitar scroll horizontal mediante arrastre en galerías
- * ======================================================================
- */
+// ─────────────── 🖱️ GESTIÓN DE DESPLAZAMIENTO ───────────────
+// assets/js/nosotros.js — Scroll horizontal por arrastre en galerías de la página "Nosotros"
 
 document.addEventListener('DOMContentLoaded', () => {
   // Selecciona todas las galerías y sus contenedores internos
@@ -16,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let startX = 0;
     let scrollLeft = 0;
 
-    /**
-     * Inicia el arrastre al hacer clic dentro del área del slider
-     */
+    // Inicia el arrastre al hacer clic dentro del área del slider
     slider.addEventListener('mousedown', (e) => {
       // Verifica que el clic ocurra en el slider o en sus descendientes directos
       if (e.target === slider || e.target.closest('.gallery-slider') === slider) {
@@ -30,9 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    /**
-     * Mueve la galería mientras se arrastra
-     */
+    // Mueve la galería mientras se arrastra
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
       e.preventDefault();
@@ -42,9 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       slider.scrollLeft = scrollLeft - walk;
     });
 
-    /**
-     * Finaliza el arrastre al soltar el botón del mouse
-     */
+    // Finaliza el arrastre al soltar el botón del mouse
     document.addEventListener('mouseup', () => {
       if (isDragging) {
         isDragging = false;
@@ -52,9 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    /**
-     * Cancela el arrastre si el puntero sale del área del slider
-     */
+    // Cancela el arrastre si el puntero sale del área del slider
     slider.addEventListener('mouseleave', () => {
       if (isDragging) {
         isDragging = false;

@@ -1,16 +1,8 @@
-/**
- * ======================================================================
- * ANIMACIÓN DE CORAZÓN PARTICULADO INTERACTIVO
- * Archivo: regalos_corazon.js
- * Propósito: Renderizar un corazón hecho de partículas con interacción
- *            por puntero y pulsos automáticos/interactivos.
- * ======================================================================
- */
+// ─────────────── 💖 ANIMACIÓN DE CORAZÓN ───────────────
+// assets/js/regalos_corazon.js — Corazón particulado interactivo con pulsos y repulsión
 
 window.HeartAnimation = (() => {
-  // ────────────────────────────────────────────────────────────────────
   // REFERENCIAS Y VALIDACIÓN INICIAL
-  // ────────────────────────────────────────────────────────────────────
 
   const cnv = document.getElementById('heart');
   if (!cnv) return null; // Salir silenciosamente si no hay canvas
@@ -18,9 +10,7 @@ window.HeartAnimation = (() => {
   const ctx = cnv.getContext('2d', { alpha: false });
   const heroSection = document.querySelector('.hero');
 
-  // ────────────────────────────────────────────────────────────────────
   // CONSTANTES DE CONFIGURACIÓN
-  // ────────────────────────────────────────────────────────────────────
 
   const DPR_CAP = 1.25;               // Límite de pixel ratio para rendimiento
   const COUNT = 850;                  // Número de partículas
@@ -36,9 +26,7 @@ window.HeartAnimation = (() => {
   const COLOR_SOFT = '#9326f8ff';     // Color con brillo para sombra
   const BG = '#000';                  // Fondo del canvas
 
-  // ────────────────────────────────────────────────────────────────────
   // ESTADO INTERNO
-  // ────────────────────────────────────────────────────────────────────
 
   let DPR = Math.min(DPR_CAP, window.devicePixelRatio || 1);
   let dotSprite, glowSprite;
@@ -50,16 +38,15 @@ window.HeartAnimation = (() => {
   let lastPulseTime = 0;
   let animationId = null;
 
-  // ────────────────────────────────────────────────────────────────────
-  // FUNCIONES AUXILIARES
-  // ────────────────────────────────────────────────────────────────────
+  // VARIABLES PARA CENTRADO CON PADDING
+  let paddingLeft = 0;
+  let paddingTop = 0;
+  let contentWidth = 0;
+  let contentHeight = 0;
 
-  /**
-   * Crea un sprite circular con o sin efecto de brillo
-   * @param {number} radius - Radio del punto
-   * @param {boolean} glow - Si incluye sombra brillante
-   * @returns {HTMLCanvasElement} - Sprite listo para dibujar
-   */
+  // FUNCIONES AUXILIARES
+
+  // Crea un sprite circular con o sin efecto de brillo
   function makeDot(radius = 2, glow = false) {
     const s = Math.ceil((radius + (glow ? 16 : 0)) * 2);
     const off = document.createElement('canvas');
@@ -79,14 +66,7 @@ window.HeartAnimation = (() => {
     return off;
   }
 
-  /**
-   * Calcula un punto en la curva paramétrica de un corazón
-   * @param {number} t - Parámetro de la curva (0 a 2π)
-   * @param {number} scale - Escala del corazón
-   * @param {number} cx - Centro X
-   * @param {number} cy - Centro Y
-   * @returns {{x: number, y: number}} - Coordenadas del punto
-   */
+  // Calcula un punto en la curva paramétrica de un corazón
   function heartPoint(t, scale, cx, cy) {
     const x = 16 * Math.pow(Math.sin(t), 3);
     const y = 13 * Math.cos(t) -
@@ -96,14 +76,12 @@ window.HeartAnimation = (() => {
     return { x: cx + x * scale, y: cy - y * scale };
   }
 
-  /**
-   * Reconstruye la forma del corazón y reinicia las partículas
-   */
+  // Reconstruye la forma del corazón y reinicia las partículas
   function rebuildHeart() {
     const w = cnv.width / DPR;
     const h = cnv.height / DPR;
 
-    // Degradado de fondo
+    // Degradado de fondo centrado en el canvas completo
     const g = ctx.createRadialGradient(w * 0.5, h * 0.5, Math.min(w, h) * 0.1, w * 0.5, h * 0.5, Math.max(w, h) * 0.6);
     g.addColorStop(0, BG);
     g.addColorStop(1, BG);
@@ -113,10 +91,10 @@ window.HeartAnimation = (() => {
     dotSprite = makeDot(1.8, false);
     glowSprite = makeDot(1.8, true);
 
-    // Parámetros del corazón
-    const scale = Math.min(w, h) * 0.02;
-    const cx = w * 0.5;
-    const cy = h * 0.55;
+    // Parámetros del corazón: centrado en el área de contenido (sin padding)
+    const scale = Math.min(contentWidth, contentHeight) * 0.02;
+    const cx = paddingLeft + contentWidth * 0.5;
+    const cy = paddingTop + contentHeight * 0.5;
 
     // Generar partículas distribuidas en la forma del corazón
     particles = [];
@@ -124,7 +102,7 @@ window.HeartAnimation = (() => {
       const t = (i / COUNT) * Math.PI * 2 + (Math.random() - 0.5) * 0.003;
       const p = heartPoint(t, scale, cx, cy);
       const angle = t + Math.PI / 2;
-      const r = (Math.random() * 2 - 1) * THICKNESS * Math.min(w, h);
+      const r = (Math.random() * 2 - 1) * THICKNESS * Math.min(contentWidth, contentHeight);
       const tx = p.x + Math.cos(angle) * r;
       const ty = p.y + Math.sin(angle) * r;
 
@@ -143,15 +121,25 @@ window.HeartAnimation = (() => {
     revealT = 0; // Reiniciar animación de revelado
   }
 
-  /**
-   * Ajusta el canvas al tamaño del contenedor y actualiza DPR
-   */
+  // Ajusta el canvas al tamaño del contenedor y actualiza DPR
   function resize() {
     DPR = Math.min(DPR_CAP, window.devicePixelRatio || 1);
-    const rect = cnv.parentElement.getBoundingClientRect();
+    const parent = cnv.parentElement;
+    const rect = parent.getBoundingClientRect();
     const w = rect.width;
     const h = rect.height;
 
+    // Obtener padding real del contenedor
+    const style = getComputedStyle(parent);
+    paddingLeft = parseFloat(style.paddingLeft) || 0;
+    paddingTop = parseFloat(style.paddingTop) || 0;
+    const paddingRight = parseFloat(style.paddingRight) || 0;
+    const paddingBottom = parseFloat(style.paddingBottom) || 0;
+
+    contentWidth = w - paddingLeft - paddingRight;
+    contentHeight = h - paddingTop - paddingBottom;
+
+    // Ajustar tamaño del canvas al tamaño total del contenedor (incluye padding)
     cnv.width = Math.floor(w * DPR);
     cnv.height = Math.floor(h * DPR);
     cnv.style.width = `${w}px`;
@@ -161,10 +149,7 @@ window.HeartAnimation = (() => {
     rebuildHeart();
   }
 
-  /**
-   * Maneja eventos de puntero (mouse/touch)
-   * @param {PointerEvent} e - Evento de puntero
-   */
+  // Maneja eventos de puntero (mouse/touch)
   function onPointer(e) {
     pointer.down = e.type === 'pointerdown' ? true :
                    e.type === 'pointerup' ? false : pointer.down;
@@ -187,15 +172,15 @@ window.HeartAnimation = (() => {
     }
   }
 
-  /**
-   * Bucle principal de animación
-   */
+  // Bucle principal de animación
   function step() {
     const now = performance.now();
     const w = cnv.width / DPR;
     const h = cnv.height / DPR;
-    const cx = w * 0.5;
-    const cy = h * 0.55;
+
+    // Usar el centro del área de contenido para repulsión
+    const cx = paddingLeft + contentWidth * 0.5;
+    const cy = paddingTop + contentHeight * 0.5;
 
     // Pulso automático periódico
     if (now - lastPulseTime > PULSE_INTERVAL) {
@@ -291,14 +276,10 @@ window.HeartAnimation = (() => {
     animationId = requestAnimationFrame(step);
   }
 
-  // ────────────────────────────────────────────────────────────────────
   // API PÚBLICA
-  // ────────────────────────────────────────────────────────────────────
 
   return {
-    /**
-     * Inicializa la animación y sus eventos
-     */
+    // Inicializa la animación y sus eventos
     init() {
       resize();
       step();
@@ -312,9 +293,7 @@ window.HeartAnimation = (() => {
       cnv.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
     },
 
-    /**
-     * Detiene la animación y oculta el canvas
-     */
+    // Detiene la animación y oculta el canvas
     stop() {
       if (animationId) {
         cancelAnimationFrame(animationId);
@@ -323,19 +302,14 @@ window.HeartAnimation = (() => {
       cnv.style.display = 'none';
     },
 
-    /**
-     * Reinicia y muestra nuevamente la animación
-     */
+    // Reinicia y muestra nuevamente la animación
     restart() {
       cnv.style.display = 'block';
-      rebuildHeart();
+      resize(); // Asegura que se recalculen tamaños y padding
       step();
     },
 
-    /**
-     * Devuelve referencias a elementos del DOM
-     * @returns {{ cnv: HTMLCanvasElement, heroSection: HTMLElement }}
-     */
+    // Devuelve referencias a elementos del DOM
     getElements() {
       return { cnv, heroSection };
     }

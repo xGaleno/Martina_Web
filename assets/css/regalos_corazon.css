@@ -12,6 +12,7 @@
 .hero {
   position: relative;
   flex-grow: 1;
+  height: 100vh; /* ← Asegura altura completa en escritorio */
   border-radius: 10px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.9);
@@ -21,7 +22,6 @@
   align-items: center;
 }
 
-/* Corazón animado de fondo (canvas o SVG) */
 #heart {
   position: absolute;
   top: 0;
@@ -31,7 +31,6 @@
   z-index: 6;
 }
 
-/* Título superpuesto en la parte inferior */
 .title {
   position: absolute;
   bottom: 20px;
@@ -39,7 +38,7 @@
   transform: translateX(-50%);
   text-align: center;
   z-index: 10;
-  pointer-events: none; /* Evita interferir con interacciones */
+  pointer-events: none;
 }
 
 .title h1 {
@@ -140,6 +139,6 @@
 
   .hero {
     height: 500px;
-    padding: 20px;
+    padding: 20px; /* Tu JS ya maneja este padding para centrar el corazón */
   }
 }
