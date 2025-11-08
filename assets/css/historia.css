@@ -167,21 +167,79 @@ body::before {
 }
 
 /* ======================================================================
-   ADAPTACIÓN MÓVIL
-   Mejora la experiencia en dispositivos pequeños
+   ADAPTACIÓN RESPONSIVE PARA MÓVILES
+   Reorganiza el layout del hero y ajusta elementos clave en pantallas pequeñas
    ====================================================================== */
-   
+
 @media (max-width: 768px) {
-  .story-content {
-    padding: 25px;
-    font-size: 1rem;
+  .container {
+    padding: 15px;
   }
 
-  .story-content h1 {
-    font-size: 1.8rem;
+  .navbar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    text-align: center;
   }
 
-  .story-content .signature {
-    font-size: 1.1rem;
+  .menu {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* HERO: cambia a diseño apilado en móvil */
+  .hero {
+    flex-direction: column;
+    height: auto;
+    min-height: 70vh;
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  .hero-content {
+    padding: 0 20px 20px;
+    order: 1;
+    width: 100%;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(1.8rem, 6vw, 2.2rem);
+    margin-bottom: 12px;
+  }
+
+  .hero-content p {
+    font-size: clamp(0.85rem, 4vw, 1rem);
+    margin-bottom: 18px;
+  }
+
+  .btn-shop {
+    align-self: center;
+    width: 85%;
+    max-width: none;
+    font-size: clamp(0.9rem, 4vw, 1rem);
+    padding: 10px 20px;
+  }
+
+  /* Imagen del hero: se mueve abajo y se ajusta */
+  .hero-image-container {
+    order: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .hero-image {
+    max-width: 80%;
+    max-height: 30vh; /* ← Ajusta la altura máxima según la pantalla */
+    height: auto;      /* ← Permite que la altura sea flexible */
+    width: auto;       /* ← Mantiene proporción */
+    object-fit: contain; /* ← No recorta, muestra toda la imagen */
+    object-position: center; /* ← Centra la imagen */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    background: #0d0d0d;
+    margin-top: 20px;
   }
 }

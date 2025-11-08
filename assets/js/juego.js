@@ -335,4 +335,11 @@ function ReiniciarJuego() {
 
   // Volver a escuchar saltos
   document.addEventListener('keydown', HandleKeyDown);
+
+  // Soporte táctil para salto (funciona en móvil sin cambios en HTML)
+  document.addEventListener('touchstart', () => {
+    if (typeof saltando !== 'undefined' && dinoPosY === sueloY) {
+      Saltar();
+    }
+  }, { passive: true });
 }
