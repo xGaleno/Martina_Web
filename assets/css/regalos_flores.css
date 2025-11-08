@@ -22,6 +22,7 @@
   align-items: center;
   z-index: 5;
   pointer-events: none;
+  opacity: 0;
 }
 
 #gift-video-container video {

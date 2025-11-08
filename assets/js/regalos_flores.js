@@ -25,30 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const oldGift = document.getElementById('gift-video-container');
     if (oldGift) oldGift.remove();
 
-    // Crear contenedor principal
+    // Crear contenedor principal con animación de aparecimiento
     const videoContainer = document.createElement('div');
     videoContainer.id = 'gift-video-container';
-    videoContainer.style.cssText = `
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 5;
-      pointer-events: none;
-    `;
+    videoContainer.classList.add('fade-in-up'); // ← Animación suave desde regalos_menu.css
 
     // Video de fondo: flores
     const floresVideo = document.createElement('video');
+    floresVideo.id = 'flores-video';
+    floresVideo.src = '../assets/video/flores.mp4'; // ✅ Carga directa y confiable
     floresVideo.autoplay = true;
     floresVideo.loop = true;
     floresVideo.muted = true;
     floresVideo.playsInline = true;
+    floresVideo.preload = 'auto';
     floresVideo.style.cssText = `
       width: 100%;
       height: 100%;
@@ -58,15 +48,17 @@ document.addEventListener('DOMContentLoaded', () => {
       left: 0;
       z-index: 1;
     `;
-    floresVideo.innerHTML = `<source src="../assets/video/flores.mp4" type="video/mp4">`;
     videoContainer.appendChild(floresVideo);
 
     // Video central: niña (con estilo neón)
     const ninaVideo = document.createElement('video');
+    ninaVideo.id = 'nina-video';
+    ninaVideo.src = '../assets/video/nina.mp4'; // ✅ Carga directa y confiable
     ninaVideo.autoplay = true;
     ninaVideo.loop = true;
     ninaVideo.muted = true;
     ninaVideo.playsInline = true;
+    ninaVideo.preload = 'metadata';
     ninaVideo.style.cssText = `
       width: 50%;
       height: auto;
@@ -81,10 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
       transform: translate(-50%, -50%);
       z-index: 2;
     `;
-    ninaVideo.innerHTML = `<source src="../assets/video/nina.mp4" type="video/mp4">`;
     videoContainer.appendChild(ninaVideo);
 
+    // Añadir al DOM
     heroSection.appendChild(videoContainer);
+
+    // Reproducir explícitamente para evitar pantallas negras
+    requestAnimationFrame(() => {
+      floresVideo.play().catch(e => console.warn('Flores video autoplay falló:', e));
+      ninaVideo.play().catch(e => console.warn('Niña video autoplay falló:', e));
+    });
   }
 
   // Regresa a la vista del corazón animado
