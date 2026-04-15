@@ -116,3 +116,46 @@
   height: 0;
   padding: 0;
 }
+
+/* ======================================================================
+   ADAPTACIÓN RESPONSIVE PARA MÓVILES
+   Ajustes de galería y hero-image para pantallas pequeñas
+   ====================================================================== */
+
+@media (max-width: 768px) {
+  .hero-image-container {
+    position: relative;
+    flex: none;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-image {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    max-width: 90%;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  .gallery-slider {
+    padding: clamp(10px, 3vw, 25px);
+    min-height: 200px;
+  }
+
+  .gallery-content {
+    gap: 6px;
+  }
+
+  .gallery-item {
+    width: clamp(100px, 30vw, 160px);
+  }
+
+  .gallery-divider {
+    margin: 20px 0;
+  }
+}

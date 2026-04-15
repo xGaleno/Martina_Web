@@ -58,3 +58,22 @@
   transform: translate(-50%, -50%);
   z-index: 2;
 }
+
+/* ======================================================================
+   ADAPTACIÓN RESPONSIVE PARA MÓVILES
+   Ajustes de videos y contenedor para pantallas pequeñas
+   ====================================================================== */
+
+@media (max-width: 768px) {
+  #gift-video-container {
+    border-radius: 6px;
+  }
+
+  #nina-video {
+    width: 70%;
+    border-width: 1.5px;
+    box-shadow:
+      0 0 6px rgba(138, 43, 226, 0.5),
+      0 0 10px rgba(138, 43, 226, 0.3);
+  }
+}

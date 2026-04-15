@@ -153,6 +153,29 @@
   }
 }
 
+@media (max-width: 768px) {
+  .game-wrapper {
+    padding: clamp(15px, 4vw, 40px) clamp(10px, 3vw, 20px);
+    min-height: auto;
+  }
+
+  .contenedor-juego {
+    width: 100%;
+    height: 200px;
+    border-radius: 6px;
+  }
+
+  .score {
+    font-size: clamp(18px, 4vw, 24px);
+    right: 10px;
+    top: 8px;
+  }
+
+  .game-over {
+    font-size: clamp(20px, 6vw, 36px);
+  }
+}
+
 @media (max-width: 600px) {
   .contenedor-juego {
     height: 180px;

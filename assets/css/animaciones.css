@@ -92,3 +92,37 @@
     transform: translateY(0);
   }
 }
+
+/* ======================================================================
+   ADAPTACIÓN RESPONSIVE PARA MÓVILES
+   Reduce distancias de animación en pantallas pequeñas para mayor fluidez
+   ====================================================================== */
+
+@media (max-width: 768px) {
+  .hero-content {
+    transform: translateY(15px);
+  }
+
+  .story-content p,
+  .story-content h1 {
+    transform: translateY(6px);
+  }
+}
+
+/* ======================================================================
+   ACCESIBILIDAD: REDUCCIÓN DE MOVIMIENTO
+   Respeta la preferencia del usuario de reducir animaciones
+   ====================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in,
+  .hero-content,
+  .hero-image,
+  .story-content p,
+  .story-content h1,
+  .btn-shop {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

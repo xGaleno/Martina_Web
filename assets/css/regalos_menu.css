@@ -154,20 +154,38 @@ body::before {
    ====================================================================== */
 
 @media (max-width: 768px) {
+  body {
+    overflow: auto;
+  }
+
   .container {
     width: 95vw;
+    height: auto;
+    max-height: none;
     gap: 10px;
+    padding: clamp(8px, 2vw, 15px);
   }
 
   .navbar {
     flex-direction: column;
     text-align: center;
     gap: 10px;
+    padding: clamp(10px, 3vw, 20px);
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .brand {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
   }
 
   .menu {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .menu a {
+    font-size: clamp(0.85rem, 3.5vw, 1rem);
   }
 }
 
