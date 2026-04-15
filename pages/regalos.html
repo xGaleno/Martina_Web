@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; img-src 'self'; media-src 'self'; font-src https://fonts.gstatic.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
   <title>Feliz 8 meses, Martineishon</title>
 
   <!-- ─────────────────────── 🔤 FUENTES ─────────────────────── -->
@@ -23,7 +27,7 @@
   <link rel="stylesheet" href="../assets/css/regalos_menu.css" />
   <link rel="stylesheet" href="../assets/css/regalos_corazon.css" />
   <link rel="stylesheet" href="../assets/css/regalos_flores.css" />
-  <link rel="stylesheet" href="../assets/css/responsive-base.css" />
+  <link rel="stylesheet" href="../assets/css/reset.responsive.css" />
 </head>
 
 <body>
@@ -41,13 +45,13 @@
   <!-- Contenedor principal de la página -->
   <!-- ─────────────────────── 🧱 CONTENEDOR PRINCIPAL ─────────────────────── -->
 
-  <main class="container fade-in-up" style="animation-delay: 0.1s">
+  <main class="container fade-in-up delay-1">
 
     <!-- ─────────────────────── 🧭 BARRA DE NAVEGACIÓN ─────────────────────── -->
     <!-- Consistencia con el resto del sitio -->
     <!-- ─────────────────────── 🧭 BARRA DE NAVEGACIÓN ─────────────────────── -->
 
-    <nav class="navbar neon-border fade-in-up" style="animation-delay: 0.2s">
+    <nav class="navbar neon-border fade-in-up delay-2">
       <div class="brand">MARTINA</div>
       <ul class="menu">
         <li><a href="../index.html">INICIO</a></li>
@@ -60,13 +64,13 @@
     <!-- Escena interactiva (corazón animado + navegación) -->
     <!-- ─────────────────────── 💖 HERO ─────────────────────── -->
 
-    <section class="hero neon-border fade-in-up" style="animation-delay: 0.4s" aria-label="Escena interactiva de regalo">
+    <section class="hero neon-border fade-in-up delay-4" aria-label="Escena interactiva de regalo">
       <!-- Canvas para la animación del corazón -->
       <canvas id="heart" aria-hidden="true"></canvas>
 
       <!-- Controles de navegación entre vistas -->
-      <button class="nav-arrow left fade-in-up" style="animation-delay: 0.6s" aria-label="Volver a la animación del corazón">‹</button>
-      <button class="nav-arrow right fade-in-up" style="animation-delay: 0.6s" aria-label="Ver escena de regalo con videos">›</button>
+      <button class="nav-arrow left fade-in-up delay-6" aria-label="Volver a la animación del corazón">‹</button>
+      <button class="nav-arrow right fade-in-up delay-6" aria-label="Ver escena de regalo con videos">›</button>
 
       <!-- Espacio reservado para título dinámico (usado por JS si se implementa) -->
       <div class="title" aria-hidden="true">
