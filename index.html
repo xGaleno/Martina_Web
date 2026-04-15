@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; frame-ancestors 'none'" />
   <title>Primer Año de Conocernos - Martina</title>
 
   <!-- ─────────────────────── 🎨 ESTILOS ─────────────────────── -->
@@ -12,7 +16,7 @@
   <link rel="stylesheet" href="assets/css/index.css" />
   <link rel="stylesheet" href="assets/css/imagenes.css" />
   <link rel="stylesheet" href="assets/css/animaciones.css" />
-  <link rel="stylesheet" href="../assets/css/responsive-base.css" />
+  <link rel="stylesheet" href="assets/css/responsive-base.css" />
 </head>
 
 <body>
@@ -57,7 +61,7 @@
           Y aunque el tiempo pase, quiero que sepas que cada día, elegiré amarte un poco más,  
           cuidarte un poco más, y vivir cada instante contigo como si fuera el primero… y el más importante.
         </p>
-        <button class="btn-shop" onclick="window.location.href='pages/regalos.html'">
+        <button class="btn-shop" id="btn-regalos">
           REGALOS PARA MI AMOR
         </button>
       </div>
@@ -135,6 +139,7 @@
    
   <script src="assets/js/musica.js"></script>      <!-- Control de audio -->
   <script src="assets/js/imagenes.js"></script>    <!-- Galería interactiva -->
+  <script src="assets/js/navegacion.js"></script>  <!-- Navegación sin inline JS -->
 
 </body>
 </html>
