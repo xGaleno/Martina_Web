@@ -1,10 +1,9 @@
-FROM nginx/nginx-unprivileged
+FROM docker.io/nginxinc/nginx-unprivileged:stable-alpine
 
-# Copiar archivos
-COPY . /usr/share/nginx/html
+# Copiar SOLO lo necesario (mejor práctica)
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY . /usr/share/nginx/html
 
 EXPOSE 8080
 
-# Corregido: cierre de corchete y comillas
 CMD ["nginx", "-g", "daemon off;"]
